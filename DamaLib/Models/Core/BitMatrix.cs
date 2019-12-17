@@ -24,7 +24,7 @@ namespace DamaLib.Models.Core
                     throw new Exception("Indice/i non valido/i");
                 return bitArray[y*(Width)+x];
             }
-            private set
+            set
             {
                 if (x < 0 || x >= Width || y < 0 || y >= Height)
                     throw new Exception("Indice/i non valido/i");

@@ -22,7 +22,23 @@ namespace DamaLib.Models
 
         private void SetupMatch()
         {
-            // TODO: implementa il setup della partita
+            // Neri
+            for (int pos = 1; pos <= 12; pos++)
+            {
+                Posizioni.Coordinate coord = Posizioni.IndexesFromPos(pos);
+                occupati[coord.X, coord.Y] = true;
+                neri[coord.X, coord.Y] = true;
+                pedine[coord.X, coord.Y] = true;
+            }
+
+            // Bianchi
+            for (int pos = 21; pos <= 32; pos++)
+            {
+                Posizioni.Coordinate coord = Posizioni.IndexesFromPos(pos);
+                occupati[coord.X, coord.Y] = true;
+                bianchi[coord.X, coord.Y] = true;
+                pedine[coord.X, coord.Y] = true;
+            }
         }
     }
 }
