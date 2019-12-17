@@ -8,6 +8,12 @@ namespace DamaLib.Models
     {
         BitMatrix bianchi, neri, occupati, pedine, dame;
 
+        /// <summary>
+        /// Tiene traccia di chi possiede il turno di gioco
+        /// false: tocca al nero. true: tocca al bianco.
+        /// </summary>
+        public bool Turno { get; private set; }
+
         public Scacchiera()
         {
             occupati = new BitMatrix(8, 8);
@@ -18,6 +24,9 @@ namespace DamaLib.Models
 
             // Posizione le pedine per l'inizio della partita
             SetupMatch();
+
+            // Imposto il turno iniziale al bianco
+            Turno = true;
         }
 
         private void SetupMatch()
