@@ -136,10 +136,13 @@ namespace DamaLib.Models
         public List<Coordinate> GetNearEmptyCells(Coordinate pos)
         {
             List<Coordinate> ls = GetNearCells(pos);
-            foreach (var cella in ls)
+            int i = 0;
+            while (i < ls.Count)
             {
-                if (Occupati[cella])
-                    ls.Remove(cella);
+                if (Occupati[ls[i]])
+                    ls.Remove(ls[i]);
+                else
+                    i++;
             }
             return ls;
         }
