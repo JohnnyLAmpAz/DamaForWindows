@@ -56,7 +56,7 @@ namespace DamaLib.Models
             }
         }
 
-        private List<Coordinate> GetMoovablePieces()
+        public List<Coordinate> GetMoovablePieces()
         {
             List<Coordinate> moovables = new List<Coordinate>();
 
@@ -88,13 +88,13 @@ namespace DamaLib.Models
         /// </summary>
         /// <param name="pos">Posizione del pezzo di cui si vuol sapere la possibilità di muoversi</param>
         /// <returns>TRUE: si può muovere; FALSE: NON si può muovere</returns>
-        private bool IsMoovablePiece(int pos)
+        public bool IsMoovablePiece(int pos)
         {
             // Controllo che ci sia un pezzo in quella posizione
             if (IsEmptyCell(pos))
                 throw new Exception($"Nessun pezzo occupa la cella numero {pos}");
 
-            if (GetNearCells(Posizioni.CoordFromPos(pos)).Count == 0)
+            if (GetNearEmptyCells(Posizioni.CoordFromPos(pos)).Count == 0)
                 return false;
             else
                 return true;
@@ -105,19 +105,19 @@ namespace DamaLib.Models
         /// </summary>
         /// <param name="pos">Numero della cella di cui si vuole ottenere quelle adiacenti</param>
         /// <returns>Lista delle celle adiacenti</returns>
-        private List<Coordinate> GetNearCells(Coordinate pos)
+        public List<Coordinate> GetNearCells(Coordinate pos)
         {
             List<Coordinate> ls = new List<Coordinate>();
             for (int i = 0; i < 4; i++)
             {
                 Coordinate nearC = new Coordinate(pos);
 
-                if (pos.X % 3 != 0)
+                if (i % 3 != 0)
                     nearC.X = pos.X + 1;
                 else
                     nearC.X = pos.X - 1;
 
-                if (pos.Y > 1)
+                if (i > 1)
                     nearC.Y = pos.Y + 1;
                 else
                     nearC.Y = pos.Y - 1;
@@ -133,7 +133,7 @@ namespace DamaLib.Models
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        private List<Coordinate> GetNearEmptyCells(Coordinate pos)
+        public List<Coordinate> GetNearEmptyCells(Coordinate pos)
         {
             List<Coordinate> ls = GetNearCells(pos);
             foreach (var cella in ls)
@@ -149,14 +149,14 @@ namespace DamaLib.Models
         /// </summary>
         /// <param name="pos">Numero della cella</param>
         /// <returns></returns>
-        private bool IsEmptyCell(int pos) => !Occupati[Posizioni.CoordFromPos(pos)];
+        public bool IsEmptyCell(int pos) => !Occupati[Posizioni.CoordFromPos(pos)];
 
         /// <summary>
         /// Restituisce la lista delle celle occupate dai pezzi di un determinato giocatore
         /// </summary>
         /// <param name="player">Colore del giocatore. false: nero, true: bianco</param>
         /// <returns></returns>
-        private List<Coordinate> GetPlayerPieces(bool player)
+        public List<Coordinate> GetPlayerPieces(bool player)
         {
             List<Coordinate> ls = new List<Coordinate>();
 
@@ -177,7 +177,7 @@ namespace DamaLib.Models
         /// <summary>
         /// Restituisce la lista delle celle occupate
         /// </summary>
-        private List<Coordinate> GetOccupiedCells()
+        public List<Coordinate> GetOccupiedCells()
         {
             List<Coordinate> ls = new List<Coordinate>();
 

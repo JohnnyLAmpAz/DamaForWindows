@@ -40,9 +40,9 @@ namespace DamaLib.Models.Core
                 bitArray[GetIndexFromCoord(x, y)] = value;
             }
         }
+
         public bool this[Coordinate c] { get => this[c.X, c.Y]; set => this[c.X, c.Y] = value; }
-
-
+        
         private int GetIndexFromCoord(int x, int y) => y * (Width) + x;
     }
 }

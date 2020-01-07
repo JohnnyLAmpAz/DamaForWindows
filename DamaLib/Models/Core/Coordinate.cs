@@ -11,7 +11,7 @@ namespace DamaLib.Models.Core
             X = x;
             Y = y;
         }
-        public Coordinate(int pos) => Posizioni.CoordFromPos(pos);
+        public Coordinate(int pos) : this(Posizioni.CoordFromPos(pos)) { }
         public Coordinate(Coordinate copia)
         {
             X = copia.X;
