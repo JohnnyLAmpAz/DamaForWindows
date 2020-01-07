@@ -186,7 +186,7 @@ namespace DamaLib.Models
 
             for (int i = 0; i < 64; i++)
                 if (Occupati[i])
-                    ls.Add(new Coordinate(i));
+                    ls.Add(new Coordinate(Posizioni.PosFromIndex(i)));
 
             return ls;
         }

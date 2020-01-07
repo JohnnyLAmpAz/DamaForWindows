@@ -5,6 +5,12 @@ namespace DamaLib.Models.Core
     public static class Posizioni
     {
         public static int PosFromIndexes(int x, int y) => PosFromCoord(new Coordinate(x, y));
+        public static int PosFromIndex(int i)
+        {
+            if (i < 0 || i > 63)
+                throw new Exception("Index non valido");
+            return PosFromCoord(new Coordinate(i % 8, i / 8));
+        }
         public static int PosFromCoord(Coordinate c)
         {
             if(!c.IsValid())
