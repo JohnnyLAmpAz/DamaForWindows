@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace DamaLib.Models.Core
 {
-    class BitMatrix
+    public class BitMatrix
     {
         BitArray bitArray;
         public int Width { get; private set; }
@@ -16,20 +16,33 @@ namespace DamaLib.Models.Core
             bitArray = new BitArray(width * height);
         }
 
+        public bool this[int i]
+        {
+            get
+            {
+                if (i < 0 || i >= bitArray.Length)
+                    throw new Exception("Indice non valido");
+                return bitArray[i];
+            }
+        }
         public bool this[int x, int y]
         {
             get
             {
                 if (x < 0 || x >= Width || y < 0 || y >= Height)
                     throw new Exception("Indice/i non valido/i");
-                return bitArray[y*(Width)+x];
+                return bitArray[GetIndexFromCoord(x, y)];
             }
             set
             {
                 if (x < 0 || x >= Width || y < 0 || y >= Height)
                     throw new Exception("Indice/i non valido/i");
-                bitArray[y*(Width)+x] = value;
+                bitArray[GetIndexFromCoord(x, y)] = value;
             }
         }
+
+        public bool this[Coordinate c] { get => this[c.X, c.Y]; set => this[c.X, c.Y] = value; }
+        
+        private int GetIndexFromCoord(int x, int y) => y * (Width) + x;
     }
 }
