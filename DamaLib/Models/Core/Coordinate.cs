@@ -23,6 +23,8 @@ namespace DamaLib.Models.Core
         public int GetPos() => Posizioni.PosFromCoord(this);
         public bool IsValid() => !(X < 0 || X >= 8 || Y < 0 || Y >= 8);
 
+        public override string ToString() => $"{X};{Y}";
+
         public bool Equals(Coordinate other) => other.X.Equals(X) && other.Y.Equals(Y);
     }
 }
