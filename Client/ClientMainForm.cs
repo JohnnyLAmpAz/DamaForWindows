@@ -10,25 +10,26 @@ using System.Windows.Forms;
 using DamaLib.Models;
 using DamaLib.Models.Core;
 
-namespace Client
+namespace Form
 {
-    public partial class Form1 : Form
+    public partial class ClientMainForm : System.Windows.Forms.Form
     {
-        public Form1()
+        public ClientMainForm()
         {
             InitializeComponent();
+
+            // Inserimento dei bottoni cella nella TableLayoutPanel
             damiera.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             for(int i=1;i<=32;i++)
             {
-                //if(damiera.ColumnCount.Equals()
                 Coordinate c = Posizioni.CoordFromPos(i);
                 Button b = new Button()
                 {
                     Name = "cella" + i,
                     Dock = DockStyle.Fill,
                     FlatStyle = FlatStyle.Flat,
+                    BackColor = Color.FromArgb(33,33,33),
                     Margin = new Padding(0)
-                    
                 };
                 b.FlatAppearance.BorderSize = 0;
                 damiera.Controls.Add(b, c.X, c.Y);

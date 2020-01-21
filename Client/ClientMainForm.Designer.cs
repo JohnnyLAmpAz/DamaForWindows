@@ -1,6 +1,6 @@
-﻿namespace Client
+﻿namespace Form
 {
-    partial class Form1
+    partial class ClientMainForm
     {
         /// <summary>
         /// Variabile di progettazione necessaria.
@@ -42,7 +42,7 @@
             this.damiera.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.damiera.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.damiera.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.damiera.Location = new System.Drawing.Point(24, 12);
+            this.damiera.Location = new System.Drawing.Point(24, 21);
             this.damiera.Name = "damiera";
             this.damiera.RowCount = 8;
             this.damiera.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
@@ -56,14 +56,14 @@
             this.damiera.Size = new System.Drawing.Size(522, 460);
             this.damiera.TabIndex = 0;
             // 
-            // Form1
+            // ClientMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(868, 625);
             this.Controls.Add(this.damiera);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "ClientMainForm";
+            this.Text = "DamaForWindows";
             this.ResumeLayout(false);
 
         }
