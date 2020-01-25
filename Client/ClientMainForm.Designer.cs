@@ -65,7 +65,6 @@
             this.Controls.Add(this.damieraPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "ClientMainForm";
             this.Text = "DamaForWindows";
             this.ResumeLayout(false);
