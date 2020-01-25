@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DamaLib.Models;
 using DamaLib.Models.Core;
+using Form.Models;
 
 namespace Form
 {
@@ -18,23 +19,13 @@ namespace Form
         {
             InitializeComponent();
 
-            // Inserimento dei bottoni cella nella TableLayoutPanel
-            damiera.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
-            for(int i=1;i<=32;i++)
-            {
-                Coordinate c = Posizioni.CoordFromPos(i);
-                Button b = new Button()
-                {
-                    Name = "cella" + i,
-                    Dock = DockStyle.Fill,
-                    FlatStyle = FlatStyle.Flat,
-                    BackColor = Color.FromArgb(33,33,33),
-                    Margin = new Padding(0)
-                };
-                b.FlatAppearance.BorderSize = 0;
-                damiera.Controls.Add(b, c.X, c.Y);
-            }
-        }
-            
+            // Attach panel to Damiera class
+            Damiera damiera = new Damiera(damieraPanel);
+
+            // Prevent form resizing
+            FormBorderStyle = FormBorderStyle.FixedSingle; 
+            MaximizeBox = false;
+            MinimizeBox = false;
+        }   
     }
 }

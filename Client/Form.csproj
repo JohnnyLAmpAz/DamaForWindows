@@ -52,6 +52,10 @@
     <Compile Include="ClientMainForm.Designer.cs">
       <DependentUpon>ClientMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\CellButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Models\Damiera.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ClientMainForm.resx">
