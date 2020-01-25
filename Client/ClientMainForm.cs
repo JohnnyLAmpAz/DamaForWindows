@@ -21,11 +21,6 @@ namespace Form
 
             // Attach panel to Damiera class
             Damiera damiera = new Damiera(damieraPanel);
-
-            // Prevent form resizing
-            FormBorderStyle = FormBorderStyle.FixedSingle; 
-            MaximizeBox = false;
-            MinimizeBox = false;
         }   
     }
 }
