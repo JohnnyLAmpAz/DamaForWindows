@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DamaLib", "DamaLib\DamaLib.csproj", "{BAE4863B-F10D-4693-A723-C57B4BBD2808}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Form", "Client\Form.csproj", "{32631FD7-94FF-409F-9F73-0F694B397C95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BAE4863B-F10D-4693-A723-C57B4BBD2808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAE4863B-F10D-4693-A723-C57B4BBD2808}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAE4863B-F10D-4693-A723-C57B4BBD2808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32631FD7-94FF-409F-9F73-0F694B397C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32631FD7-94FF-409F-9F73-0F694B397C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32631FD7-94FF-409F-9F73-0F694B397C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32631FD7-94FF-409F-9F73-0F694B397C95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

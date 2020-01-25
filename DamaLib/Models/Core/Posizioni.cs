@@ -24,7 +24,7 @@ namespace DamaLib.Models.Core
         }
         public static Coordinate CoordFromPos(int pos)
         {
-            if (pos < 1 || pos > 32)
+            if (!IsValid(pos))
                 throw new Exception("Posizione non valida");
 
             // Riga
@@ -36,5 +36,7 @@ namespace DamaLib.Models.Core
 
             return new Coordinate(x,y);
         }
+
+        public static bool IsValid(int pos) => pos > 0 && pos < 33;
     }
 }
