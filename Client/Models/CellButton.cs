@@ -19,13 +19,13 @@ namespace Form.Models
             DamaBianca,
             DamaNera
         }
-        private Dictionary<Status, string> immagini = new Dictionary<Status, string>()
+        private Dictionary<Status, Bitmap> immagini = new Dictionary<Status, Bitmap>()
         {
-            { Status.Vuota, "PATH" },
-            { Status.PedinaBianca, "PATH" },
-            { Status.PedinaNera, "PATH" },
-            { Status.DamaBianca, "PATH" },
-            { Status.DamaNera, "PATH" },
+            { Status.Vuota, new Bitmap(Client.Properties.Resources.empty) },
+            { Status.PedinaBianca, new Bitmap(Client.Properties.Resources.ped_white) },
+            { Status.PedinaNera, new Bitmap(Client.Properties.Resources.ped_black) },
+            { Status.DamaBianca, new Bitmap(Client.Properties.Resources.dama_white) },
+            { Status.DamaNera, new Bitmap(Client.Properties.Resources.dama_black) },
         };
 
         private Status stato;
@@ -35,7 +35,7 @@ namespace Form.Models
             get => stato;
             set
             {
-                BackgroundImage = Bitmap.FromFile(immagini[value]);
+                BackgroundImage = immagini[value];
                 BackgroundImageLayout = ImageLayout.Zoom;
                 stato = value;
             }
