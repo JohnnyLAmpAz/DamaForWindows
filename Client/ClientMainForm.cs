@@ -18,9 +18,16 @@ namespace Form
         public ClientMainForm()
         {
             InitializeComponent();
-
             // Attach panel to Damiera class
             Damiera damiera = new Damiera(damieraPanel);
-        }   
+
+            for (int i = 1; i < 33; i++)
+                damiera[i].Click += CellaClick;
+        }
+
+        private void CellaClick(object sender, EventArgs e)
+        {
+            label1.Text = (sender as CellButton).Posizione.ToString();
+        }
     }
 }

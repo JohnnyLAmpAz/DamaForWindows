@@ -11,6 +11,36 @@ namespace Form.Models
 {
     public class CellButton : Button
     {
+        public enum Status
+        {
+            Vuota,
+            PedinaBianca,
+            PedinaNera,
+            DamaBianca,
+            DamaNera
+        }
+        private Dictionary<Status, string> immagini = new Dictionary<Status, string>()
+        {
+            { Status.Vuota, "PATH" },
+            { Status.PedinaBianca, "PATH" },
+            { Status.PedinaNera, "PATH" },
+            { Status.DamaBianca, "PATH" },
+            { Status.DamaNera, "PATH" },
+        };
+
+        private Status stato;
+        public int Posizione { get; private set; }
+        public Status Stato
+        {
+            get => stato;
+            set
+            {
+                BackgroundImage = Bitmap.FromFile(immagini[value]);
+                BackgroundImageLayout = ImageLayout.Zoom;
+                stato = value;
+            }
+        }
+
         public CellButton(int posizione)
         {
             if (!Posizioni.IsValid(posizione))
@@ -22,8 +52,7 @@ namespace Form.Models
             BackColor = Color.FromArgb(33, 33, 33);
             Margin = new Padding(0);
             FlatAppearance.BorderSize = 0;
+            Stato = Status.Vuota;
         }
-
-        public int Posizione { get; private set; }
     }
 }
