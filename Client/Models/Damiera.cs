@@ -12,6 +12,16 @@ namespace Form.Models
     {
         CellButton[] celle;
         public TableLayoutPanel Panel { get; private set; }
+        public CellButton this[Coordinate c] => this[Posizioni.PosFromCoord(c)];
+        public CellButton this[int pos]
+        {
+            get
+            {
+                if (!Posizioni.IsValid(pos))
+                    throw new Exception("Posizione non valida");
+                return Panel.Controls[pos-1] as CellButton;
+            }
+        }
 
         public Damiera(TableLayoutPanel panel)
         {
