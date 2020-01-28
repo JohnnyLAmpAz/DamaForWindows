@@ -48,7 +48,6 @@ namespace Form.Models
             Panel.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
             Panel.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
             Panel.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            Panel.Size = new System.Drawing.Size(500, 500);
             Panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
             Panel.TabIndex = 0;
 

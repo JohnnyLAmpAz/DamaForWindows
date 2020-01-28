@@ -27,7 +27,9 @@ namespace Form
 
         private void CellaClick(object sender, EventArgs e)
         {
-            label1.Text = (sender as CellButton).Posizione.ToString();
+            CellButton c = sender as CellButton;
+            label1.Text = c.Posizione.ToString();
+            c.Stato = (CellButton.Status)(((int)c.Stato + 1) % 5);
         }
     }
 }
