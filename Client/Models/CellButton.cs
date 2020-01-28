@@ -25,7 +25,7 @@ namespace Form.Models
             { Status.PedinaBianca, new Bitmap(Client.Properties.Resources.ped_white) },
             { Status.PedinaNera, new Bitmap(Client.Properties.Resources.ped_black) },
             { Status.DamaBianca, new Bitmap(Client.Properties.Resources.dama_white) },
-            { Status.DamaNera, new Bitmap(Client.Properties.Resources.dama_black) },
+            { Status.DamaNera, new Bitmap(Client.Properties.Resources.dama_black) }
         };
 
         private Status stato;
@@ -36,7 +36,6 @@ namespace Form.Models
             set
             {
                 BackgroundImage = immagini[value];
-                BackgroundImageLayout = ImageLayout.Zoom;
                 stato = value;
             }
         }
@@ -53,6 +52,7 @@ namespace Form.Models
             Margin = new Padding(0);
             FlatAppearance.BorderSize = 0;
             Stato = Status.Vuota;
+            BackgroundImageLayout = ImageLayout.Zoom;
         }
     }
 }
