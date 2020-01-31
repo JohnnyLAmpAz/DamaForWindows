@@ -5,7 +5,7 @@ using DamaLib.Models.BackEnd.Core;
 
 namespace DamaLib.Models.BackEnd
 {
-    class ServerDama : TcpServer
+    public class ServerDama : TcpServer
     {
         DiscoveryServerUDP discoveryServer;
         public ServerDama() : base(55555)
