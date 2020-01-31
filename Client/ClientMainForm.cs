@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using DamaLib.Models;
 using DamaLib.Models.Core;
 using Form.Models;
+using Client;
 
 namespace Form
 {
@@ -30,6 +31,12 @@ namespace Form
             CellButton c = sender as CellButton;
             label1.Text = c.Posizione.ToString();
             c.Stato = (CellButton.Status)(((int)c.Stato + 1) % 5);
+        }
+
+        private void btnDiscover_Click(object sender, EventArgs e)
+        {
+            ServerDiscoveryForm discoveryForm = new ServerDiscoveryForm();
+            discoveryForm.ShowDialog();
         }
     }
 }
