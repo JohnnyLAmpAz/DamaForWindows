@@ -39,7 +39,7 @@ namespace DamaLib.Models.BackEnd.Core
                     if (req.Equals(rightRequest))
                     {
                         byte[] buff = Encoding.ASCII.GetBytes(response);
-                        udpClient.Send(buff, 0, client);
+                        udpClient.Send(buff, buff.Length, client);
                     }
                 }
             });
