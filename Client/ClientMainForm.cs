@@ -10,12 +10,15 @@ using System.Windows.Forms;
 using DamaLib.Models;
 using DamaLib.Models.Core;
 using Form.Models;
+using DamaLib.Models.BackEnd;
 using Client;
 
 namespace Form
 {
     public partial class ClientMainForm : System.Windows.Forms.Form
     {
+        ClientDama client = new ClientDama();
+
         public ClientMainForm()
         {
             InitializeComponent();
@@ -35,7 +38,8 @@ namespace Form
 
         private void btnDiscover_Click(object sender, EventArgs e)
         {
-            ServerDiscoveryForm discoveryForm = new ServerDiscoveryForm();
+            // Apro form delle lobby
+            ServerDiscoveryForm discoveryForm = new ServerDiscoveryForm(client);
             discoveryForm.ShowDialog();
         }
     }

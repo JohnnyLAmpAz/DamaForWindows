@@ -14,3 +14,5 @@ All'interno del pacchetto ci dovrebbe essere la stringa `DamaServerDiscoveryRequ
 ### Response
 
 Il server risponderà a sua volta con un pacchetto UDP diretto al client col messaggio `HereIAm!`.
+
+## Lobbies
