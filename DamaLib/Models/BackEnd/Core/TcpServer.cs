@@ -41,9 +41,9 @@ namespace DamaLib.Models.BackEnd.Core
                         int i = ns.Read(buff, 0, buff.Length);
                         while (i != 0)
                         {
-                            string req = Encoding.ASCII.GetString(buff, 0, i);
+                            string req = Encoding.UTF8.GetString(buff, 0, i);
                             Console.WriteLine($"<{client.Client.RemoteEndPoint.ToString()}>: {req}");
-                            buff = Encoding.ASCII.GetBytes(
+                            buff = Encoding.UTF8.GetBytes(
                                 Handler(req,(IPEndPoint)client.Client.RemoteEndPoint));
                             ns.Write(buff, 0, buff.Length); //Risposta
                             buff = new byte[1024];

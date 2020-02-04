@@ -121,6 +121,7 @@
             this.MinimizeBox = false;
             this.Name = "ServerDiscoveryForm";
             this.Text = "ServerDiscoveryForm";
+            this.Shown += new System.EventHandler(this.ServerDiscoveryForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

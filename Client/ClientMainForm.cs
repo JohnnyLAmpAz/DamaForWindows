@@ -19,10 +19,10 @@ namespace Form
     {
         ClientDama client;
 
-        public ClientMainForm()
+        public ClientMainForm(ClientDama client)
         {
             InitializeComponent();
-            client = new ClientDama();
+            this.client = client;
 
             // Attach panel to Damiera class
             Damiera damiera = new Damiera(damieraPanel);
@@ -33,16 +33,10 @@ namespace Form
 
         private void CellaClick(object sender, EventArgs e)
         {
+            // TODO: ONLY FOR TEST PURPOSE. REMOVE
             CellButton c = sender as CellButton;
             label1.Text = c.Posizione.ToString();
             c.Stato = (CellButton.Status)(((int)c.Stato + 1) % 5);
-        }
-
-        private void btnDiscover_Click(object sender, EventArgs e)
-        {
-            // Apro form delle lobby
-            ServerDiscoveryForm discoveryForm = new ServerDiscoveryForm(client);
-            discoveryForm.ShowDialog();
         }
     }
 }

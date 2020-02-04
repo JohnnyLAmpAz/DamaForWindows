@@ -54,7 +54,7 @@ namespace DamaLib.Models.BackEnd
                     // TODO: Controlla anche che non stia già giocando!
 
                     // Creo una lobby
-                    lobbies.Add(new Lobby(client.Address, nomeLobby));
+                    lobbies.Add(new Lobby(client.Address.ToString(), nomeLobby));
                     return Constants.Responses.Ok;
                 }
 

@@ -28,7 +28,7 @@ namespace DamaLib.Models.BackEnd.Core
                     client = new IPEndPoint(IPAddress.Any, 0);
 
                     // Ricevo richiesta e ne salvo la stringa
-                    string req = Encoding.ASCII.GetString(
+                    string req = Encoding.UTF8.GetString(
                         udpClient.Receive(ref client));
 
                     /* Controllo se la richiesta rispecchia il protocollo 
@@ -38,7 +38,7 @@ namespace DamaLib.Models.BackEnd.Core
                      */
                     if (req.Equals(rightRequest))
                     {
-                        byte[] buff = Encoding.ASCII.GetBytes(response);
+                        byte[] buff = Encoding.UTF8.GetBytes(response);
                         udpClient.Send(buff, buff.Length, client);
                     }
                 }

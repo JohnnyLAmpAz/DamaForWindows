@@ -19,6 +19,7 @@ namespace Client
         {
             this.client = client;
             InitializeComponent();
+            lvLobbies.FullRowSelect = true;
         }
 
         private void JoinLobbyForm_Load(object sender, EventArgs e)
@@ -31,7 +32,7 @@ namespace Client
             lvLobbies.Items.Clear();
             List<Lobby> lobbies = client.GetListAvailableLobbies();
             foreach (var lobby in lobbies)
-                lvLobbies.Items.Add(new ListViewItem(new string[] { lobby.Nome, lobby.Creatore.ToString() }));
+                lvLobbies.Items.Add(new ListViewItem(new string[] { lobby.Nome, lobby.Creatore }));
         }
 
         private void btnRefresh_Click(object sender, EventArgs e) => RefreshLobbies();

@@ -17,12 +17,10 @@ namespace Client
     public partial class ServerDiscoveryForm : System.Windows.Forms.Form
     {
         ClientDama client;
-        public ServerDiscoveryForm(ClientDama client)
+        public ServerDiscoveryForm()
         {
             InitializeComponent();
-            this.client = client;
-
-            DiscoverServer();
+            this.client = new ClientDama();
         }
 
         private void btnDiscover_Click(object sender, EventArgs e) => DiscoverServer();
@@ -49,6 +47,8 @@ namespace Client
         private void btnJoinLobby_Click(object sender, EventArgs e)
         {
             JoinLobbyForm joinLobbyForm = new JoinLobbyForm(client);
+            joinLobbyForm.FormClosed += (object s, FormClosedEventArgs ea) => Show();
+            Hide();
             joinLobbyForm.ShowDialog();
         }
 
@@ -60,8 +60,18 @@ namespace Client
             // Se tutto è andato bene
             if (res.Equals(Constants.Responses.Ok))
             {
-                // TODO: continua: fai nuova form per creatore lobby
+                ManageCreatedLobbyForm lobbyForm = new ManageCreatedLobbyForm(tbNomeLobby.Text.ToString());
+                lobbyForm.FormClosed += (object s, FormClosedEventArgs ea) => Show();
+                Hide();
+                lobbyForm.ShowDialog();
             }
+            else
+                MessageBox.Show(res);
+        }
+
+        private void ServerDiscoveryForm_Shown(object sender, EventArgs e)
+        {
+            DiscoverServer();
         }
     }
 }

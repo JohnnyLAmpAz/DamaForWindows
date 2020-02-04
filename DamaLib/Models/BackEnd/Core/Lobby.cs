@@ -8,10 +8,10 @@ namespace DamaLib.Models.BackEnd.Core
     public class Lobby
     {
         public string Nome { get; private set; }
-        public IPAddress Creatore { get; set; }
-        public IPAddress Unito{ get; set; }
+        public string Creatore { get; set; }
+        public string Unito{ get; set; }
 
-        public Lobby(IPAddress c, string nome)
+        public Lobby(string c, string nome)
         {
             Nome = nome;
             Creatore = c;

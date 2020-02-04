@@ -42,6 +42,8 @@ Richiesta in JSON:
 }
 ```
 
+Risposta a buon fine: `OK`
+
 ### Join
 
 ## Response Errors

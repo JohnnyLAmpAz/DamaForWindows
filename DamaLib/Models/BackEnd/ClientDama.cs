@@ -22,18 +22,43 @@ namespace DamaLib.Models.BackEnd
 
         public bool DiscoverServer()
         {
-            UdpClient udpClient = new UdpClient();
+            UdpClient udpClient;
+            byte[] buff;
+            IPEndPoint server;
 
-            // Setto come destinatario indirizzo broadcast
-            IPEndPoint server = new IPEndPoint(IPAddress.Broadcast, Constants.DamaServerPort);
+            while (true)
+            {
+                try
+                {
+                    udpClient = new UdpClient();
 
-            // Richiesta
-            byte[] buff = Encoding.ASCII.GetBytes("DamaServerDiscoveryRequest");
-            udpClient.Send(buff, buff.Length, server);
+                    // Setto come destinatario indirizzo broadcast
+                    server = new IPEndPoint(IPAddress.Broadcast, Constants.DamaServerPort);
 
-            // Catch risposta e mi salvo l'IP del server
-            buff = udpClient.Receive(ref server);
-            if (Encoding.ASCII.GetString(buff).Equals("HereIAm!"))
+                    // Richiesta
+                    buff = Encoding.UTF8.GetBytes("DamaServerDiscoveryRequest");
+                    udpClient.Send(buff, buff.Length, server);
+
+                    // Catch risposta e mi salvo l'IP del server
+                    udpClient.Client.ReceiveTimeout = 5000;
+                    buff = udpClient.Receive(ref server);
+                    break;
+                }
+                catch (SocketException e)
+                {
+                    if (e.ErrorCode.Equals(10060))
+                    {
+                        // If receive timed-out retry
+                        continue;
+                    }
+                    else
+                        throw e;
+                }
+            }
+
+            udpClient.Close();
+
+            if (Encoding.UTF8.GetString(buff).Equals("HereIAm!"))
             {
                 // Mi salvo l'indirizzo
                 Server = server.Address;
@@ -65,16 +90,16 @@ namespace DamaLib.Models.BackEnd
             NetworkStream ns = tcpClient.GetStream();
 
             // Request
-            byte[] buff = Encoding.ASCII.GetBytes(req);
+            byte[] buff = Encoding.UTF8.GetBytes(req);
             ns.Write(buff, 0, buff.Length);
 
             // Response
-            buff = new byte[1024];
-            ns.Read(buff, 0, buff.Length);
+            buff = new byte[tcpClient.ReceiveBufferSize];
+            int len = ns.Read(buff, 0, tcpClient.ReceiveBufferSize);
 
             tcpClient.Close();
 
-            return Encoding.ASCII.GetString(buff);
+            return Encoding.UTF8.GetString(buff,0,len);
         }
     }
 }
