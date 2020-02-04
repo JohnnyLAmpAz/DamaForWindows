@@ -30,18 +30,19 @@
         {
             this.btnDiscover = new System.Windows.Forms.Button();
             this.lblOutput = new System.Windows.Forms.Label();
-            this.btnJoin = new System.Windows.Forms.Button();
-            this.btnHost = new System.Windows.Forms.Button();
+            this.btnJoinLobby = new System.Windows.Forms.Button();
+            this.btnCreateLobby = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.tbNomeLobby = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnDiscover
             // 
             this.btnDiscover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDiscover.Location = new System.Drawing.Point(12, 265);
+            this.btnDiscover.Location = new System.Drawing.Point(12, 252);
             this.btnDiscover.Name = "btnDiscover";
-            this.btnDiscover.Size = new System.Drawing.Size(347, 36);
+            this.btnDiscover.Size = new System.Drawing.Size(263, 36);
             this.btnDiscover.TabIndex = 0;
             this.btnDiscover.Text = "Refresh";
             this.btnDiscover.UseVisualStyleBackColor = true;
@@ -55,56 +56,69 @@
             this.lblOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOutput.Location = new System.Drawing.Point(12, 42);
             this.lblOutput.Name = "lblOutput";
-            this.lblOutput.Size = new System.Drawing.Size(347, 136);
+            this.lblOutput.Size = new System.Drawing.Size(263, 123);
             this.lblOutput.TabIndex = 1;
             this.lblOutput.Text = "Not Found";
             this.lblOutput.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnJoin
+            // btnJoinLobby
             // 
-            this.btnJoin.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnJoinLobby.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnJoin.Location = new System.Drawing.Point(12, 223);
-            this.btnJoin.Name = "btnJoin";
-            this.btnJoin.Size = new System.Drawing.Size(347, 36);
-            this.btnJoin.TabIndex = 0;
-            this.btnJoin.Text = "Joina";
-            this.btnJoin.UseVisualStyleBackColor = true;
-            this.btnJoin.Click += new System.EventHandler(this.btnDiscover_Click);
+            this.btnJoinLobby.Enabled = false;
+            this.btnJoinLobby.Location = new System.Drawing.Point(12, 210);
+            this.btnJoinLobby.Name = "btnJoinLobby";
+            this.btnJoinLobby.Size = new System.Drawing.Size(263, 36);
+            this.btnJoinLobby.TabIndex = 0;
+            this.btnJoinLobby.Text = "Joina Lobby";
+            this.btnJoinLobby.UseVisualStyleBackColor = true;
+            this.btnJoinLobby.Click += new System.EventHandler(this.btnJoinLobby_Click);
             // 
-            // btnHost
+            // btnCreateLobby
             // 
-            this.btnHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnCreateLobby.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHost.Location = new System.Drawing.Point(12, 181);
-            this.btnHost.Name = "btnHost";
-            this.btnHost.Size = new System.Drawing.Size(347, 36);
-            this.btnHost.TabIndex = 0;
-            this.btnHost.Text = "Hosta";
-            this.btnHost.UseVisualStyleBackColor = true;
-            this.btnHost.Click += new System.EventHandler(this.btnDiscover_Click);
+            this.btnCreateLobby.Enabled = false;
+            this.btnCreateLobby.Location = new System.Drawing.Point(200, 168);
+            this.btnCreateLobby.Name = "btnCreateLobby";
+            this.btnCreateLobby.Size = new System.Drawing.Size(75, 36);
+            this.btnCreateLobby.TabIndex = 0;
+            this.btnCreateLobby.Text = "Crea Lobby";
+            this.btnCreateLobby.UseVisualStyleBackColor = true;
+            this.btnCreateLobby.Click += new System.EventHandler(this.btnCreateLobby_Click);
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(150, 9);
+            this.label1.Location = new System.Drawing.Point(108, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 24);
             this.label1.TabIndex = 1;
             this.label1.Text = "Server:";
             // 
+            // tbNomeLobby
+            // 
+            this.tbNomeLobby.Location = new System.Drawing.Point(12, 177);
+            this.tbNomeLobby.Name = "tbNomeLobby";
+            this.tbNomeLobby.Size = new System.Drawing.Size(182, 20);
+            this.tbNomeLobby.TabIndex = 2;
+            // 
             // ServerDiscoveryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(371, 313);
+            this.ClientSize = new System.Drawing.Size(287, 300);
+            this.Controls.Add(this.tbNomeLobby);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblOutput);
-            this.Controls.Add(this.btnHost);
-            this.Controls.Add(this.btnJoin);
+            this.Controls.Add(this.btnCreateLobby);
+            this.Controls.Add(this.btnJoinLobby);
             this.Controls.Add(this.btnDiscover);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ServerDiscoveryForm";
             this.Text = "ServerDiscoveryForm";
             this.ResumeLayout(false);
@@ -116,8 +130,9 @@
 
         private System.Windows.Forms.Button btnDiscover;
         private System.Windows.Forms.Label lblOutput;
-        private System.Windows.Forms.Button btnJoin;
-        private System.Windows.Forms.Button btnHost;
+        private System.Windows.Forms.Button btnJoinLobby;
+        private System.Windows.Forms.Button btnCreateLobby;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbNomeLobby;
     }
 }

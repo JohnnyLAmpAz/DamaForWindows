@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using DamaLib.Models.BackEnd;
+using DamaLib;
 
 namespace Client
 {
@@ -20,23 +21,47 @@ namespace Client
         {
             InitializeComponent();
             this.client = client;
+
+            DiscoverServer();
         }
 
-        private void btnDiscover_Click(object sender, EventArgs e)
+        private void btnDiscover_Click(object sender, EventArgs e) => DiscoverServer();
+
+        private void DiscoverServer()
         {
-            UdpClient udpClient = new UdpClient();
+            if(client.DiscoverServer())
+            {
+                // Aggiorno la form
+                lblOutput.Text = client.Server.ToString();
+                btnCreateLobby.Enabled = true;
+                btnJoinLobby.Enabled = true;
+            }
+            else
+            {
+                // Aggiorno la form
+                lblOutput.Text = "Not Found";
+                btnCreateLobby.Enabled = false;
+                btnJoinLobby.Enabled = false;
+            }
 
-            // Setto come destinatario indirizzo broadcast
-            IPEndPoint server = new IPEndPoint(IPAddress.Broadcast, 55555);
+        }
 
-            // Richiesta
-            byte[] buff = Encoding.ASCII.GetBytes("DamaServerDiscoveryRequest");
-            udpClient.Send(buff, buff.Length, server);
+        private void btnJoinLobby_Click(object sender, EventArgs e)
+        {
+            JoinLobbyForm joinLobbyForm = new JoinLobbyForm(client);
+            joinLobbyForm.ShowDialog();
+        }
 
-            // Catch risposta e mi salvo l'IP del server
-            buff = udpClient.Receive(ref server);
-            if (Encoding.ASCII.GetString(buff).Equals("HereIAm!"))
-                client.Server = server.Address;
+        private void btnCreateLobby_Click(object sender, EventArgs e)
+        {
+            // invio richiesta
+            string res = client.CreateLobby(tbNomeLobby.Text);
+
+            // Se tutto è andato bene
+            if (res.Equals(Constants.Responses.Ok))
+            {
+                // TODO: continua: fai nuova form per creatore lobby
+            }
         }
     }
 }

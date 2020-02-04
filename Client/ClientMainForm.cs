@@ -17,11 +17,13 @@ namespace Form
 {
     public partial class ClientMainForm : System.Windows.Forms.Form
     {
-        ClientDama client = new ClientDama();
+        ClientDama client;
 
         public ClientMainForm()
         {
             InitializeComponent();
+            client = new ClientDama();
+
             // Attach panel to Damiera class
             Damiera damiera = new Damiera(damieraPanel);
 

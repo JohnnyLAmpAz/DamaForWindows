@@ -1,14 +1,80 @@
-﻿using System;
+﻿using DamaLib.Models.BackEnd.Core;
+using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DamaLib.Models.BackEnd
 {
     public class ClientDama
     {
-        public IPAddress Server { get; set; }
+        public IPAddress Server { get; set; } = default;
+        TcpClient tcpClient;
 
+        public List<Lobby> GetListAvailableLobbies()
+        {
+            return JsonConvert.DeserializeObject<List<Lobby>>(
+                TcpRequest(Constants.Requests.GetListAvailableLobbies));
+        }
 
+        public bool DiscoverServer()
+        {
+            UdpClient udpClient = new UdpClient();
+
+            // Setto come destinatario indirizzo broadcast
+            IPEndPoint server = new IPEndPoint(IPAddress.Broadcast, Constants.DamaServerPort);
+
+            // Richiesta
+            byte[] buff = Encoding.ASCII.GetBytes("DamaServerDiscoveryRequest");
+            udpClient.Send(buff, buff.Length, server);
+
+            // Catch risposta e mi salvo l'IP del server
+            buff = udpClient.Receive(ref server);
+            if (Encoding.ASCII.GetString(buff).Equals("HereIAm!"))
+            {
+                // Mi salvo l'indirizzo
+                Server = server.Address;
+
+                return true;    // Trovato
+            }
+            else
+                return false;   // Non trovato
+        }
+
+        public string CreateLobby(string nome)
+        {
+            JObject json = new JObject();
+            json.Add("req", new JValue(Constants.Requests.CreateLobby));
+            json.Add("nome", new JValue(nome));
+            return TcpRequest(json.ToString());
+        }
+
+        /// <summary>
+        /// Richiesta TCP al server alla porta definita nelle costanti
+        /// </summary>
+        /// <param name="req">Stringa di richiesta</param>
+        /// <returns>Stringa di risposta</returns>
+        private string TcpRequest(string req)
+        {
+            tcpClient = new TcpClient();
+
+            tcpClient.Connect(new IPEndPoint(Server, Constants.DamaServerPort));
+            NetworkStream ns = tcpClient.GetStream();
+
+            // Request
+            byte[] buff = Encoding.ASCII.GetBytes(req);
+            ns.Write(buff, 0, buff.Length);
+
+            // Response
+            buff = new byte[1024];
+            ns.Read(buff, 0, buff.Length);
+
+            tcpClient.Close();
+
+            return Encoding.ASCII.GetString(buff);
+        }
     }
 }

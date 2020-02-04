@@ -18,7 +18,7 @@ namespace DamaLib.Models.BackEnd.Core
         {
             discoveryServerThread = new Thread(() => 
             {
-                UdpClient udpClient = new UdpClient(55555);
+                UdpClient udpClient = new UdpClient(Constants.DamaServerPort);
                 IPEndPoint client;
 
                 // Loop infinito di ascolto

@@ -14,7 +14,7 @@ namespace DamaLib.Models.BackEnd.Core
         TcpListener lis;
         public TcpServer(int port)
         {
-            lis = new TcpListener(IPAddress.Loopback, port);
+            lis = new TcpListener(IPAddress.Any, port);
             Thread t = new Thread(new ThreadStart(() =>
             {
                 StartListener();
@@ -44,7 +44,7 @@ namespace DamaLib.Models.BackEnd.Core
                             string req = Encoding.ASCII.GetString(buff, 0, i);
                             Console.WriteLine($"<{client.Client.RemoteEndPoint.ToString()}>: {req}");
                             buff = Encoding.ASCII.GetBytes(
-                                Handler(req));
+                                Handler(req,(IPEndPoint)client.Client.RemoteEndPoint));
                             ns.Write(buff, 0, buff.Length); //Risposta
                             buff = new byte[1024];
                             i = ns.Read(buff, 0, buff.Length);
@@ -67,6 +67,6 @@ namespace DamaLib.Models.BackEnd.Core
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public abstract string Handler(string req);
+        public abstract string Handler(string req, IPEndPoint client);
     }
 }
