@@ -46,6 +46,17 @@ Risposta a buon fine: `OK`
 
 ### Join
 
+Richiesta in JSON:
+
+```json
+{
+    req: "JoinLobby",
+    nome: "<nome>"
+}
+```
+
+Risposta a buon fine: *Lobby in **JSON***.
+
 ### Delete
 
 Richiesta in JSON:
@@ -53,6 +64,19 @@ Richiesta in JSON:
 ```json
 {
     req: "DeleteLobby",
+    nome: "<nome>"
+}
+```
+
+Risposta a buon fine: `OK`
+
+### Leave
+
+Richiesta in JSON:
+
+```json
+{
+    req: "LeaveLobby",
     nome: "<nome>"
 }
 ```
@@ -67,3 +91,5 @@ Risposta a buon fine: `OK`
 - `E3` Nessuna lobby possiede il nome specificato
 - `E4` Nome lobby non valido
 - `E5` Operazione non permessa, solo il creatore della lobby è abilitato a compierla
+- `E6` Lobby già occupata
+- `E7` Non fai parte di questa lobby

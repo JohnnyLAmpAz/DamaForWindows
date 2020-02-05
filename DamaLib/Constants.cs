@@ -23,6 +23,8 @@ namespace DamaLib
             public const string GetListAvailableLobbies = "ListAvailableLobbies";
             public const string CreateLobby = "CreateLobby";
             public const string DeleteLobby = "DeleteLobby";
+            public const string JoinLobby = "JoinLobby";
+            public const string LeaveLobby = "LeaveLobby";
         }
         public static class Responses
         {
@@ -59,6 +61,16 @@ namespace DamaLib
             {
                 Code = "E5",
                 Message = "Operazione non permessa, solo il creatore della lobby è abilitato a compierla"
+            };
+            public static readonly Error LobbyNotAvailable = new Error
+            {
+                Code = "E6",
+                Message = "Lobby già occupata"
+            };
+            public static readonly Error NotPartecipant = new Error
+            {
+                Code = "E7",
+                Message = "Non fai parte di questa lobby"
             };
         }
     }

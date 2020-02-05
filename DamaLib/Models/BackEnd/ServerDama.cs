@@ -24,7 +24,7 @@ namespace DamaLib.Models.BackEnd
 
             // ListAvailableLobbies
             if (req.Equals(Constants.Requests.GetListAvailableLobbies))
-                return ListAvailableLobbies();
+                return JsonConvert.SerializeObject(lobbies);
 
             #endregion
 
@@ -39,7 +39,7 @@ namespace DamaLib.Models.BackEnd
                 if (((string)json["req"]).Equals(Constants.Requests.CreateLobby))
                 {
                     // Controllo che questo client non abbia già creato una lobby
-                    if (lobbies.Exists((x) => x.Creatore.Equals(client.Address)))
+                    if (lobbies.Exists((x) => x.Creatore.Equals(client.Address.ToString())))
                         return Constants.ResponseErrors.LobbyAlreadyCreated.ToString();
 
                     // Controllo che il nome della lobby sia valido e che non sia già in uso
@@ -73,17 +73,60 @@ namespace DamaLib.Models.BackEnd
                     lobbies.RemoveAll(x => x.Nome.Equals(nome));
                     return Constants.Responses.Ok;
                 }
+
+                // JoinLobby
+                if (((string)json["req"]).Equals(Constants.Requests.JoinLobby))
+                {
+                    string nomeLobby = (string)json["nome"];
+                    Lobby lobby = lobbies.Find(x => x.Nome.Equals(nomeLobby));
+
+                    // Controllo che la lobby esista
+                    if (lobby == default)
+                        return Constants.ResponseErrors.LobbyNameNotFound.ToString();
+
+                    // Controllo che questa lobby sia disponibile
+                    if (!(lobby.Unito is null))
+                        return Constants.ResponseErrors.LobbyNotAvailable.ToString();
+
+                    // TODO: Controlla anche che non stia già giocando o già hostando una lobby!
+
+                    // TODO: Avverti il server!
+
+                    // Aggiungo lo sfidante
+                    lobby.Unito = client.Address.ToString();
+                    return JsonConvert.SerializeObject(lobby);
+                }
+
+                // LeaveLobby
+                if (((string)json["req"]).Equals(Constants.Requests.LeaveLobby))
+                {
+                    string nomeLobby = (string)json["nome"];
+
+                    // Controllo se esiste la lobby
+                    if (!lobbies.Exists(x => x.Nome.Equals(nomeLobby)))
+                        return Constants.ResponseErrors.LobbyNameNotFound.ToString();
+
+                    // Controllo che sia il giocatore ospite della lobby
+                    Lobby l = lobbies.Find(x => x.Nome.Equals(nomeLobby));
+                    if (!l.Unito.Equals(client.Address.ToString()))
+                        return Constants.ResponseErrors.NotPartecipant.ToString();
+
+                    // Leave
+                    l.Unito = null;
+
+                    // TODO: notifica il creatore 
+
+                    return Constants.Responses.Ok;
+                }
             }
-            catch (JsonReaderException) { }
+            catch (JsonReaderException)
+            {
+                return Constants.ResponseErrors.InvalidRequest.ToString();
+            }
 
             #endregion
 
             return Constants.ResponseErrors.InvalidRequest.ToString();
-        }
-
-        private string ListAvailableLobbies()
-        {
-            return JsonConvert.SerializeObject(lobbies);
         }
     }
 }

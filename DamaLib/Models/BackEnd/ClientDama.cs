@@ -85,6 +85,22 @@ namespace DamaLib.Models.BackEnd
             return TcpRequest(json.ToString());
         }
 
+        public string JoinLobby(string nome)
+        {
+            JObject json = new JObject();
+            json.Add("req", new JValue(Constants.Requests.JoinLobby));
+            json.Add("nome", new JValue(nome));
+            return TcpRequest(json.ToString());
+        }
+
+        public string LeaveLobby(string nome)
+        {
+            JObject json = new JObject();
+            json.Add("req", new JValue(Constants.Requests.LeaveLobby));
+            json.Add("nome", new JValue(nome));
+            return TcpRequest(json.ToString());
+        }
+
         /// <summary>
         /// Richiesta TCP al server alla porta definita nelle costanti
         /// </summary>
