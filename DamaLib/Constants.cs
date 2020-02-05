@@ -16,11 +16,13 @@ namespace DamaLib
         }
 
         #endregion
+
         public static int DamaServerPort = 55555;
         public static class Requests
         {
             public const string GetListAvailableLobbies = "ListAvailableLobbies";
             public const string CreateLobby = "CreateLobby";
+            public const string DeleteLobby = "DeleteLobby";
         }
         public static class Responses
         {
@@ -42,6 +44,21 @@ namespace DamaLib
             {
                 Code = "E2",
                 Message = "Nome lobby già utilizzato"
+            };
+            public static readonly Error LobbyNameNotFound = new Error
+            {
+                Code = "E3",
+                Message = "Nessuna lobby possiede il nome specificato"
+            };
+            public static readonly Error LobbyNameNotValid = new Error
+            {
+                Code = "E4",
+                Message = "Nome lobby non valido"
+            };
+            public static readonly Error LobbyCreatorRequired = new Error
+            {
+                Code = "E5",
+                Message = "Operazione non permessa, solo il creatore della lobby è abilitato a compierla"
             };
         }
     }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using DamaLib.Models.BackEnd.Core;
+﻿using DamaLib.Models.BackEnd.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Net;
 
 namespace DamaLib.Models.BackEnd
 {
@@ -47,8 +44,9 @@ namespace DamaLib.Models.BackEnd
 
                     // Controllo che il nome della lobby sia valido e che non sia già in uso
                     string nomeLobby = (string)json["nome"];
-                    if (string.IsNullOrWhiteSpace(nomeLobby) || 
-                        lobbies.Exists((x) => x.Nome.Equals(nomeLobby)))
+                    if (string.IsNullOrWhiteSpace(nomeLobby))
+                        return Constants.ResponseErrors.LobbyNameNotValid.ToString();
+                    if (lobbies.Exists((x) => x.Nome.Equals(nomeLobby)))
                         return Constants.ResponseErrors.LobbyNameInUse.ToString();
 
                     // TODO: Controlla anche che non stia già giocando!
@@ -58,9 +56,25 @@ namespace DamaLib.Models.BackEnd
                     return Constants.Responses.Ok;
                 }
 
+                // DeleteLobby
+                if (((string)json["req"]).Equals(Constants.Requests.DeleteLobby))
+                {
+                    string nome = (string)json["nome"];
+                    // Cerco la lobby
+                    Lobby l = lobbies.Find(x => x.Nome.Equals(nome));
+                    if (l == default)
+                        return Constants.ResponseErrors.LobbyNameNotFound.ToString();
 
+                    // Controllo che colui che la vuole eliminare sia il creatore
+                    if (!l.Creatore.Equals(client.Address.ToString()))
+                        return Constants.ResponseErrors.LobbyCreatorRequired.ToString();
+
+                    // Elimino la lobby
+                    lobbies.RemoveAll(x => x.Nome.Equals(nome));
+                    return Constants.Responses.Ok;
+                }
             }
-            catch (JsonReaderException) {}
+            catch (JsonReaderException) { }
 
             #endregion
 

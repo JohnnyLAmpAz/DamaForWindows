@@ -46,6 +46,19 @@ Risposta a buon fine: `OK`
 
 ### Join
 
+### Delete
+
+Richiesta in JSON:
+
+```json
+{
+    req: "DeleteLobby",
+    nome: "<nome>"
+}
+```
+
+Risposta a buon fine: `OK`
+
 ## Response Errors
 
 ### `E0`

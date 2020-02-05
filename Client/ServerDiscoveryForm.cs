@@ -60,7 +60,7 @@ namespace Client
             // Se tutto è andato bene
             if (res.Equals(Constants.Responses.Ok))
             {
-                ManageCreatedLobbyForm lobbyForm = new ManageCreatedLobbyForm(tbNomeLobby.Text.ToString());
+                ManageCreatedLobbyForm lobbyForm = new ManageCreatedLobbyForm(tbNomeLobby.Text.ToString(), client);
                 lobbyForm.FormClosed += (object s, FormClosedEventArgs ea) => Show();
                 Hide();
                 lobbyForm.ShowDialog();
