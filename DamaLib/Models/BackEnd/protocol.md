@@ -61,6 +61,9 @@ Risposta a buon fine: `OK`
 
 ## Response Errors
 
-### `E0`
-
-Invalid Request
+- `E0` Invalid Request
+- `E1` Impossibile creare più di una lobby
+- `E2` Nome lobby già utilizzato
+- `E3` Nessuna lobby possiede il nome specificato
+- `E4` Nome lobby non valido
+- `E5` Operazione non permessa, solo il creatore della lobby è abilitato a compierla
