@@ -61,7 +61,7 @@ namespace Client
             lvLobbies.Items.Clear();
             List<Lobby> lobbies = client.GetListAvailableLobbies();
             foreach (var lobby in lobbies)
-                lvLobbies.Items.Add(new ListViewItem(new string[] { lobby.Nome, lobby.Creatore, lobby.Unito == default ? "Sì" : "No" }));
+                lvLobbies.Items.Add(new ListViewItem(new string[] { lobby.Nome, lobby.Creatore, lobby.Unito == default(string) ? "Sì" : "No" }));
         }
 
         private void btnRefresh_Click(object sender, EventArgs e) => RefreshLobbies();

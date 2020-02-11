@@ -15,7 +15,7 @@ namespace DamaLib.Models.BackEnd.Core
         {
             Nome = nome;
             Creatore = c;
-            Unito = default;
+            Unito = default(string);
         }
     }
 }

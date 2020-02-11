@@ -11,7 +11,7 @@ namespace DamaLib.Models.BackEnd
 {
     public class ClientDama
     {
-        public IPAddress Server { get; set; } = default;
+        public IPAddress Server { get; set; } = default(IPAddress);
         TcpClient tcpClient;
 
         public List<Lobby> GetListAvailableLobbies()

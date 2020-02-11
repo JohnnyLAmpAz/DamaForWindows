@@ -62,7 +62,7 @@ namespace DamaLib.Models.BackEnd
                     string nome = (string)json["nome"];
                     // Cerco la lobby
                     Lobby l = lobbies.Find(x => x.Nome.Equals(nome));
-                    if (l == default)
+                    if (l == default(Lobby))
                         return Constants.ResponseErrors.LobbyNameNotFound.ToString();
 
                     // Controllo che colui che la vuole eliminare sia il creatore
@@ -81,7 +81,7 @@ namespace DamaLib.Models.BackEnd
                     Lobby lobby = lobbies.Find(x => x.Nome.Equals(nomeLobby));
 
                     // Controllo che la lobby esista
-                    if (lobby == default)
+                    if (lobby == default(Lobby))
                         return Constants.ResponseErrors.LobbyNameNotFound.ToString();
 
                     // Controllo che questa lobby sia disponibile
