@@ -105,7 +105,7 @@ namespace DamaLib.Models
         /// </summary>
         /// <param name="pos">Numero della cella di cui si vuole ottenere quelle adiacenti</param>
         /// <returns>Lista delle celle adiacenti</returns>
-        public List<Coordinate> GetNearCells(Coordinate pos)
+        public List<Coordinate> GetNearCells(Coordinate pos, bool isDama = true)
         {
             List<Coordinate> ls = new List<Coordinate>();
             for (int i = 0; i < 4; i++)
@@ -125,7 +125,70 @@ namespace DamaLib.Models
                 if (nearC.IsValid())
                     ls.Add(nearC);
             }
+
+            // Se è una pedina ritorno solo quelle nel verso giusto
+            if (!isDama)
+            {
+                bool colore = GetColore(pos);
+                var realLs = new List<Coordinate>();
+
+                foreach (var dest in ls)
+                {
+                    if (dest.Y < pos.Y == colore)
+                        realLs.Add(dest);
+                }
+                return realLs;
+            }
+
             return ls;
+        }
+
+        public List<Coordinate> GetNearJumps(Coordinate pos, bool isDama = true)
+        {
+            List<Coordinate> ls = new List<Coordinate>();
+            for (int i = 0; i < 4; i++)
+            {
+                Coordinate nearJ = new Coordinate(pos);
+
+                if (i % 3 != 0)
+                    nearJ.X = pos.X + 2;
+                else
+                    nearJ.X = pos.X - 2;
+
+                if (i > 1)
+                    nearJ.Y = pos.Y + 2;
+                else
+                    nearJ.Y = pos.Y - 2;
+                    nearJ.Y = pos.Y - 2;
+
+                if (nearJ.IsValid())
+                    ls.Add(nearJ);
+            }
+
+            // Se è una pedina ritorno solo quelle nel verso giusto
+            if (!isDama)
+            {
+                bool colore = GetColore(pos) ?? throw new Exception("Colore non valido");
+                var realLs = new List<Coordinate>();
+
+                foreach (var dest in ls)
+                {
+                    if (dest.Y < pos.Y == colore)
+                        realLs.Add(dest);
+                }
+                return realLs;
+            }
+            return ls;
+        }
+
+        public List<Coordinate> GetNearEmptyJumps(Coordinate pos, bool isDama = true)
+        {
+            var eJ = new List<Coordinate>();
+            var ls = GetNearJumps(pos,isDama);
+            foreach (var j in ls)
+                if (!Occupati[j])
+                    eJ.Add(j);
+            return eJ;
         }
 
         /// <summary>
@@ -133,9 +196,9 @@ namespace DamaLib.Models
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public List<Coordinate> GetNearEmptyCells(Coordinate pos)
+        public List<Coordinate> GetNearEmptyCells(Coordinate pos, bool isDama = true)
         {
-            List<Coordinate> ls = GetNearCells(pos);
+            List<Coordinate> ls = GetNearCells(pos, isDama);
             int i = 0;
             while (i < ls.Count)
             {
@@ -188,6 +251,31 @@ namespace DamaLib.Models
                 if (Occupati[i])
                     ls.Add(new Coordinate(Posizioni.PosFromIndex(i)));
 
+            return ls;
+        }
+
+        public bool GetColore(Coordinate c)
+        {
+            if (Bianchi[c])
+                return true;
+            else if (Neri[c])
+                return false;
+            else
+                throw new Exception("Colore non valido");
+        }
+
+        public List<Coordinate> GetNearEatableEnemies(Coordinate c, bool isDama = true)
+        {
+            var ls = new List<Coordinate>();
+            var nc = GetNearCells(c, isDama);
+            var colore = GetColore(c);
+            foreach (var o in nc)
+                if (Occupati[o] && 
+                    (colore ? Neri[o] : Bianchi[o]))
+                {
+                    if(GetColore(o)!=colore /*TODO: controllo pedina non puo mangiare dama*/)
+                        ls.Add(o);
+                }
             return ls;
         }
     }

@@ -10,12 +10,14 @@ namespace DamaLib.Models.BackEnd
     {
         DiscoveryServerUDP discoveryServer;
         List<Lobby> lobbies;
+        List<Scacchiera> partite;
 
         public ServerDama() : base(Constants.DamaServerPort)
         {
             // Avvio il server UDP di discovery
             discoveryServer = new DiscoveryServerUDP();
             lobbies = new List<Lobby>();
+            partite = new List<Scacchiera>();
         }
 
         public override string Handler(string req, IPEndPoint client)
