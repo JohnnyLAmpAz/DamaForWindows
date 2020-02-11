@@ -32,7 +32,7 @@
             this.lblNomeLobby = new System.Windows.Forms.Label();
             this.btnDeleteLobby = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblGuestIP = new System.Windows.Forms.Label();
             this.btnStartMatch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -78,16 +78,16 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "IP sfidante:";
             // 
-            // label3
+            // lblGuestIP
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(110, 60);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(255, 20);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "In attesa che qualquno joini...";
+            this.lblGuestIP.AutoSize = true;
+            this.lblGuestIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGuestIP.Location = new System.Drawing.Point(110, 60);
+            this.lblGuestIP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGuestIP.Name = "lblGuestIP";
+            this.lblGuestIP.Size = new System.Drawing.Size(255, 20);
+            this.lblGuestIP.TabIndex = 0;
+            this.lblGuestIP.Text = "In attesa che qualquno joini...";
             // 
             // btnStartMatch
             // 
@@ -107,7 +107,7 @@
             this.ClientSize = new System.Drawing.Size(379, 174);
             this.Controls.Add(this.btnStartMatch);
             this.Controls.Add(this.btnDeleteLobby);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblGuestIP);
             this.Controls.Add(this.lblNomeLobby);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -130,7 +130,7 @@
         private System.Windows.Forms.Label lblNomeLobby;
         private System.Windows.Forms.Button btnDeleteLobby;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblGuestIP;
         private System.Windows.Forms.Button btnStartMatch;
     }
 }

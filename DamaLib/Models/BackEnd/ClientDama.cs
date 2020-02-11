@@ -1,11 +1,12 @@
 ﻿using DamaLib.Models.BackEnd.Core;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace DamaLib.Models.BackEnd
 {
@@ -13,6 +14,14 @@ namespace DamaLib.Models.BackEnd
     {
         public IPAddress Server { get; set; } = default(IPAddress);
         TcpClient tcpClient;
+        LocalServerOnClient localServer;
+        Thread tLocalServer;
+
+        public ClientDama()
+        {
+            // Start local TCP server used for messages from DamaServer
+            localServer = new LocalServerOnClient(Constants.DamaLocalServerPort);
+        }
 
         public List<Lobby> GetListAvailableLobbies()
         {
@@ -101,6 +110,14 @@ namespace DamaLib.Models.BackEnd
             return TcpRequest(json.ToString());
         }
 
+        // Event forwarding
+        // https://stackoverflow.com/questions/1065355/forwarding-events-in-c-sharp
+        public event EventHandler<OtherLobbyPlayerJoinedEventArgs> OtherLobbyPlayerJoined
+        {
+            add { localServer.OtherLobbyPlayerJoined += value; }
+            remove { localServer.OtherLobbyPlayerJoined -= value; }
+        }
+
         /// <summary>
         /// Richiesta TCP al server alla porta definita nelle costanti
         /// </summary>
@@ -109,7 +126,6 @@ namespace DamaLib.Models.BackEnd
         private string TcpRequest(string req)
         {
             tcpClient = new TcpClient();
-
             tcpClient.Connect(new IPEndPoint(Server, Constants.DamaServerPort));
             NetworkStream ns = tcpClient.GetStream();
 
@@ -123,7 +139,12 @@ namespace DamaLib.Models.BackEnd
 
             tcpClient.Close();
 
-            return Encoding.UTF8.GetString(buff,0,len);
+            return Encoding.UTF8.GetString(buff, 0, len);
         }
+    }
+
+    public class OtherLobbyPlayerJoinedEventArgs : EventArgs
+    {
+        public string IpUnito { get; set; }
     }
 }

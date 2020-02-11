@@ -18,6 +18,7 @@ namespace DamaLib
         #endregion
 
         public static int DamaServerPort = 55555;
+        public static int DamaLocalServerPort = 55554;
         public static class Requests
         {
             public const string GetListAvailableLobbies = "ListAvailableLobbies";
@@ -26,6 +27,12 @@ namespace DamaLib
             public const string JoinLobby = "JoinLobby";
             public const string LeaveLobby = "LeaveLobby";
         }
+
+        public static class LocalRequests
+        {
+            public const string LobbyPlayerJoined = "LobbyPlayerJoined";
+        }
+
         public static class Responses
         {
             public const string Ok = "OK";

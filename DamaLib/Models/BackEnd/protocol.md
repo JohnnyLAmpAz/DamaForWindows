@@ -57,6 +57,19 @@ Richiesta in JSON:
 
 Risposta a buon fine: *Lobby in **JSON***.
 
+### LobbyPlayerJoined - LOCAL_SERVER
+
+Server -> Client`:55554`
+
+Content: *JSON*
+
+```json
+{
+    type: "LobbyPlayerJoined",
+    player: "<PLAYER_IP_ADDRESS>"
+}
+```
+
 ### Delete
 
 Richiesta in JSON:
