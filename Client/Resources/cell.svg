@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg18"
+   width="128"
+   height="128"
+   viewBox="0 0 128 128"
+   sodipodi:docname="cell.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:export-filename="C:\Users\Lorenzo\Development\SCUOLA\PROJECTS\DamaForWindows\Client\Resources\dama_white.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <metadata
+     id="metadata24">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs22">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter6280"
+       x="-0.010437086"
+       width="1.0208742"
+       y="-0.014113433"
+       height="1.0282269">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.1888814"
+         id="feGaussianBlur6282" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview20"
+     showgrid="false"
+     inkscape:zoom="2.6074563"
+     inkscape:cx="64.773077"
+     inkscape:cy="62.657759"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg18" />
+  <image
+     width="128"
+     height="128"
+     preserveAspectRatio="none"
+     xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
+AAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFPSURB
+VHic7dIxAQAgDMAw4Jx/vyCDo4mCHt0zcxdZ53cAfxkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaI
+M0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaI
+M0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaI
+M0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaI
+M0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQZ4A4A8QZIM4AcQaI
+M0CcAeIMEGeAOAPEGSDOAHEGiDNAnAHiDBBngDgDxBkgzgBxBogzQJwB4gwQ9wDjCgIdp459ygAA
+AABJRU5ErkJggg==
+"
+     id="image26"
+     x="0"
+     y="0"
+     style="fill:#ffffff" />
+  <circle
+     style="fill:#ffffff;stroke-width:3.51;fill-opacity:1;stroke:#aeaeae;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+     id="path3731"
+     cx="64"
+     cy="64"
+     r="55.897388" />
+  <path
+     style="fill:#f5d738;fill-opacity:1;stroke:#a9a9a9;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter6280)"
+     d="m 50.049623,80.059713 c 0.563458,-12.537856 -0.936625,-17.151938 -7.76619,-26.750209 5.079889,3.968634 10.088533,8.206713 13.518924,6.807401 5.054159,-2.250885 6.708215,-9.365824 8.149704,-12.176618 1.459851,3.054943 3.165983,10.144527 7.76619,12.560134 4.782079,0.963378 9.715727,-4.026913 13.998318,-7.574432 -2.748303,4.319199 -8.248733,14.803009 -7.861394,26.955915 z"
+     id="path6274"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cccccccc"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96"
+     transform="matrix(1.4411231,0,0,1.4411231,-28.231875,-28.231875)" />
+</svg>

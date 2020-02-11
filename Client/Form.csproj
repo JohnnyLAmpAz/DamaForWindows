@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,14 +55,38 @@
     <Compile Include="ClientMainForm.Designer.cs">
       <DependentUpon>ClientMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JoinLobbyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JoinLobbyForm.Designer.cs">
+      <DependentUpon>JoinLobbyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManageCreatedLobbyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageCreatedLobbyForm.Designer.cs">
+      <DependentUpon>ManageCreatedLobbyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\CellButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Models\Damiera.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerDiscoveryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerDiscoveryForm.Designer.cs">
+      <DependentUpon>ServerDiscoveryForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ClientMainForm.resx">
       <DependentUpon>ClientMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JoinLobbyForm.resx">
+      <DependentUpon>JoinLobbyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageCreatedLobbyForm.resx">
+      <DependentUpon>ManageCreatedLobbyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -69,7 +96,12 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ServerDiscoveryForm.resx">
+      <DependentUpon>ServerDiscoveryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -88,6 +120,14 @@
       <Project>{bae4863b-f10d-4693-a723-c57b4bbd2808}</Project>
       <Name>DamaLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\dama_black.png" />
+    <Content Include="Resources\dama_white.png" />
+    <Content Include="Resources\empty.png" />
+    <Content Include="Resources\ped_black.png" />
+    <Content Include="Resources\ped_white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
