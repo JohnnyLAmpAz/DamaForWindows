@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using DamaLib.Models.Core;
+using System;
 using System.Collections.Generic;
-using DamaLib.Models.Core;
 
 namespace DamaLib.Models
 {
@@ -29,13 +28,13 @@ namespace DamaLib.Models
             Dame = new BitMatrix(8, 8);
 
             // Posizione le pedine per l'inizio della partita
-            SetupMatch();
+            SetupPedine();
 
             // Imposto il turno iniziale al bianco
             Turno = true;
         }
 
-        private void SetupMatch()
+        private void SetupPedine()
         {
             // Neri
             for (int pos = 1; pos <= 12; pos++)
@@ -56,6 +55,7 @@ namespace DamaLib.Models
             }
         }
 
+        // TODO: ???
         public List<Coordinate> GetMoovablePieces()
         {
             List<Coordinate> moovables = new List<Coordinate>();
@@ -159,7 +159,7 @@ namespace DamaLib.Models
                     nearJ.Y = pos.Y + 2;
                 else
                     nearJ.Y = pos.Y - 2;
-                    nearJ.Y = pos.Y - 2;
+                nearJ.Y = pos.Y - 2;
 
                 if (nearJ.IsValid())
                     ls.Add(nearJ);
@@ -168,7 +168,7 @@ namespace DamaLib.Models
             // Se è una pedina ritorno solo quelle nel verso giusto
             if (!isDama)
             {
-                bool colore = GetColore(pos) ?? throw new Exception("Colore non valido");
+                bool colore = GetColore(pos);
                 var realLs = new List<Coordinate>();
 
                 foreach (var dest in ls)
@@ -184,11 +184,23 @@ namespace DamaLib.Models
         public List<Coordinate> GetNearEmptyJumps(Coordinate pos, bool isDama = true)
         {
             var eJ = new List<Coordinate>();
-            var ls = GetNearJumps(pos,isDama);
+            var ls = GetNearJumps(pos, isDama);
             foreach (var j in ls)
                 if (!Occupati[j])
                     eJ.Add(j);
             return eJ;
+        }
+
+        public List<Coordinate> GetNearEmptyEatingJumps(Coordinate pos, bool isDama = true)
+        {
+            var ls = new List<Coordinate>();
+            foreach (var j in GetNearEmptyJumps(pos, isDama))
+            {
+                var between = pos.GetBetweenMeAnd(j);
+                if (Occupati[between] && GetColore(between) != GetColore(pos))
+                    ls.Add(j);
+            }
+            return ls;
         }
 
         /// <summary>
@@ -254,6 +266,19 @@ namespace DamaLib.Models
             return ls;
         }
 
+        public List<Coordinate> GetNearEatableEnemies(Coordinate c, bool isDama = true)
+        {
+            var ls = new List<Coordinate>();
+            var colore = GetColore(c);
+            foreach (var cell in GetNearCells(c))
+                if (Occupati[cell] &&
+                    colore != GetColore(cell) &&
+                    !Occupati[c.GetLandingAfterJumping(cell)] &&
+                    !(Pedine[c] && Dame[cell]))
+                    ls.Add(cell);
+            return ls;
+        }
+
         public bool GetColore(Coordinate c)
         {
             if (Bianchi[c])
@@ -264,19 +289,47 @@ namespace DamaLib.Models
                 throw new Exception("Colore non valido");
         }
 
-        public List<Coordinate> GetNearEatableEnemies(Coordinate c, bool isDama = true)
+        private List<Mossa> FindPossibleMooves()
         {
-            var ls = new List<Coordinate>();
-            var nc = GetNearCells(c, isDama);
-            var colore = GetColore(c);
-            foreach (var o in nc)
-                if (Occupati[o] && 
-                    (colore ? Neri[o] : Bianchi[o]))
+            var lsMosse = new List<Mossa>();
+
+            // Ottengo lista delle pedine del giocatore che ha il turno
+            var playerPeds = GetPlayerPieces(Turno);
+
+            // Itero su tutte le pedine del giocatore
+            // bool che tiene traccia se ho mosse che mangiano o meno - priorità a quelle che mangiano, scartando le altre
+            bool eating = false;
+            foreach (var ped in playerPeds)
+            {
+                var nearEatableEnemies = GetNearEatableEnemies(ped, Dame[ped]);
+
+                // Controllo se non si possono mangiare pedine intorno
+                if (nearEatableEnemies.Count == 0)
                 {
-                    if(GetColore(o)!=colore /*TODO: controllo pedina non puo mangiare dama*/)
-                        ls.Add(o);
+                    // Se ci sono gia altre mosse possibili che mangiano lascio perdere questa
+                    if (eating)
+                        continue;
+
+                    // Altrimenti cerco e aggiungo alle mosse eventuali caselle adiacenti libere in cui spostarsi
+                    foreach (var emptyCell in GetNearEmptyCells(ped, Dame[ped]))
+                        lsMosse.Add(new Mossa()
+                        {
+                            Salti = new List<Coordinate>() { ped, emptyCell },
+                            Mangiati = new List<Coordinate>()
+                        });
                 }
-            return ls;
+                else
+                {
+                    // Switcho alla modalità eating se prima non lo ero, svuotando la lissta delle mosse
+                    if (!eating)
+                    {
+                        lsMosse.Clear();
+                        eating = true;
+                    }
+
+                    // TODO: continuaree
+                }
+            }
         }
     }
 }
