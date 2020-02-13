@@ -55,6 +55,16 @@ namespace DamaLib.Models
             }
         }
 
+        #region Alter pedine
+        private void Remove(Coordinate c)
+        {
+            if (Occupati[c])
+                Occupati[c] = Neri[c] = Bianchi[c] = Pedine[c] = Dame[c] = false;
+            else
+                throw new Exception("Nessusa pedina in questa cella");
+        }
+        #endregion
+
         // TODO: ???
         public List<Coordinate> GetMoovablePieces()
         {
@@ -197,7 +207,9 @@ namespace DamaLib.Models
             foreach (var j in GetNearEmptyJumps(pos, isDama))
             {
                 var between = pos.GetBetweenMeAnd(j);
-                if (Occupati[between] && GetColore(between) != GetColore(pos))
+                if (Occupati[between] && 
+                    GetColore(between) != GetColore(pos) &&
+                    !(!isDama && Dame[between]))
                     ls.Add(j);
             }
             return ls;
@@ -289,7 +301,7 @@ namespace DamaLib.Models
                 throw new Exception("Colore non valido");
         }
 
-        private List<Mossa> FindPossibleMooves()
+        private List<Mossa> FindPossiblePlayerMooves()
         {
             var lsMosse = new List<Mossa>();
 
@@ -298,7 +310,8 @@ namespace DamaLib.Models
 
             // Itero su tutte le pedine del giocatore
             // bool che tiene traccia se ho mosse che mangiano o meno - priorità a quelle che mangiano, scartando le altre
-            bool eating = false;
+            bool eatingWithDama = false;
+            int maxNumEating = 0, numEatingDame = 0, minIndexFirstDama = -1;
             foreach (var ped in playerPeds)
             {
                 var nearEatableEnemies = GetNearEatableEnemies(ped, Dame[ped]);
@@ -307,29 +320,96 @@ namespace DamaLib.Models
                 if (nearEatableEnemies.Count == 0)
                 {
                     // Se ci sono gia altre mosse possibili che mangiano lascio perdere questa
-                    if (eating)
+                    if (maxNumEating > 0)
                         continue;
 
                     // Altrimenti cerco e aggiungo alle mosse eventuali caselle adiacenti libere in cui spostarsi
                     foreach (var emptyCell in GetNearEmptyCells(ped, Dame[ped]))
-                        lsMosse.Add(new Mossa()
-                        {
-                            Salti = new List<Coordinate>() { ped, emptyCell },
-                            Mangiati = new List<Coordinate>()
-                        });
+                        lsMosse.Add(new Mossa(
+                            new List<Coordinate>() { ped, emptyCell },
+                            new List<Coordinate>()
+                        ));
                 }
+                // Se si possono mangiare pedine intorno
                 else
                 {
+                    // Allora genero tutte le mosse possibili (magari non valide: priorità non controllate!)
+                    var jumpingMooves = FindPossibleJumpingEatingPedMooves(ped, Dame[ped]);
+
                     // Switcho alla modalità eating se prima non lo ero, svuotando la lissta delle mosse
-                    if (!eating)
+                    if (maxNumEating == 0)
                     {
                         lsMosse.Clear();
-                        eating = true;
+                        maxNumEating = jumpingMooves[0].NumMangiati;
                     }
 
-                    // TODO: continuaree
+                    // Le itero controllando le priorità
+                    foreach (var m in jumpingMooves)
+                    {
+                        // MAX numero di pedine mangiate
+                        if (m.NumMangiati > maxNumEating)
+                        {
+                            // Se questa mossa mangia piu pedine di tutte le mosse fino ad ora trovate, la rendo l'unica nuova disponibile
+                            lsMosse = new List<Mossa>() { m };
+                            maxNumEating = m.NumMangiati;
+                            eatingWithDama = m.IsFirstDama(this);
+                            numEatingDame = m.NumDameMangiate(this);
+                            minIndexFirstDama = m.IndexFirstDama(this);
+                        }
+                        else if (m.NumMangiati == maxNumEating)
+                        {
+                            // TODO: Dame > Pedine
+
+                        }
+                        else
+                            continue; // Se ne mangia di meno non la prendo nemmeno in considerazione
+                    }
                 }
             }
+        }
+
+        private List<Mossa> FindPossibleJumpingEatingPedMooves(Coordinate from, bool isDama = true) => 
+            RecursiveFindJumpingEatingMooves(
+                new List<Coordinate>(),from,isDama);
+        private List<Mossa> RecursiveFindJumpingEatingMooves(List<Coordinate> mangiati, Coordinate from, bool isDama = true)
+        {
+            var lsMosse = new List<Mossa>();
+
+            // Guardo se posso mangiare delle pedine
+            var nearEatingJumps = GetNearEmptyEatingJumps(from, isDama);
+
+            // Tolgo quelle che eventualmente sono già state mangiate in precedenza (nel caso del giro tondo con la dama, pericolo di stallo)
+            for (int i = 0; i < nearEatingJumps.Count; i++)
+            {
+                if (mangiati.Contains(nearEatingJumps[i]))
+                {
+                    nearEatingJumps.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+            }
+
+            // Per ogni pedina mangiabile creo ed aggiungo la mossa
+            foreach (var jump in nearEatingJumps)
+            {
+                // Costruisco la lista completa delle pedine mangiate in precedenza + la mia
+                var allMangiati = new List<Coordinate>(mangiati);
+                allMangiati.Add(from.GetBetweenMeAnd(jump));
+
+                // Richiamo la funzione ricorsiva per poi aggiungere le mosse che mi ritorna alle mie
+                foreach (var m in RecursiveFindJumpingEatingMooves(allMangiati,jump,isDama))
+                {
+                    var oldJumps = m.Salti;
+                    var oldMangiati = m.Mangiati;
+                    m.Salti = new List<Coordinate>() { new Coordinate(from) };
+                    m.Mangiati = new List<Coordinate>() { from.GetBetweenMeAnd(jump) };
+                    m.Salti.AddRange(oldJumps);
+                    m.Mangiati.AddRange(oldMangiati);
+                    lsMosse.Add(m);
+                }
+            }
+
+            return lsMosse;
         }
     }
 }

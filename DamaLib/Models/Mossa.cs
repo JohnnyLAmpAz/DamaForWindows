@@ -9,7 +9,12 @@ namespace DamaLib.Models
     {
         private List<Coordinate> salti;
 
-        public bool Turno { get; set; }
+        public Mossa(List<Coordinate> salti, List<Coordinate> mangiati)
+        {
+            Salti = salti ?? throw new ArgumentNullException(nameof(salti));
+            Mangiati = mangiati ?? throw new ArgumentNullException(nameof(mangiati));
+        }
+
         public List<Coordinate> Salti
         {
             get { return salti; }
@@ -31,6 +36,23 @@ namespace DamaLib.Models
             set { Salti[Salti.Count - 1] = value; }
         }
         public List<Coordinate> Mangiati { get; set; }
+        public int NumMangiati { get => Mangiati.Count; }
+        public bool IsFirstDama(Scacchiera s) => s.Dame[Salti[0]];
+        public int NumDameMangiate(Scacchiera s)
+        {
+            int n = 0;
+            foreach (var mangiato in Mangiati)
+                if (s.Dame[mangiato])
+                    n++;
+            return n;
+        }
+        public int IndexFirstDama(Scacchiera s)
+        {
+            for (int i = 0; i < Mangiati.Count; i++)
+                if (s.Dame[Mangiati[i]])
+                    return i;
+            return -1;
+        }
 
         // TODO: is this good?
         //public Mossa(Scacchiera s, Coordinate from, Coordinate to)
@@ -55,11 +77,11 @@ namespace DamaLib.Models
         //        Salti = new List<Coordinate>() { from, to };
         //        Mangiati = new List<Coordinate>();
         //    } 
-            
+
         //    // o se to sia nei salti possibili da from
         //    else if()
         //    {
-                
+
         //    }
         //}
 
