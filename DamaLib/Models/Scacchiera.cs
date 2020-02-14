@@ -311,7 +311,7 @@ namespace DamaLib.Models
             // Itero su tutte le pedine del giocatore
             // bool che tiene traccia se ho mosse che mangiano o meno - priorità a quelle che mangiano, scartando le altre
             bool eatingWithDama = false;
-            int maxNumEating = 0, numEatingDame = 0, minIndexFirstDama = -1;
+            int maxNumEating = 0, maxEatingDame = 0, minIndexFirstDama = -1;
             foreach (var ped in playerPeds)
             {
                 var nearEatableEnemies = GetNearEatableEnemies(ped, Dame[ped]);
@@ -353,19 +353,63 @@ namespace DamaLib.Models
                             lsMosse = new List<Mossa>() { m };
                             maxNumEating = m.NumMangiati;
                             eatingWithDama = m.IsFirstDama(this);
-                            numEatingDame = m.NumDameMangiate(this);
+                            maxEatingDame = m.NumDameMangiate(this);
                             minIndexFirstDama = m.IndexFirstDama(this);
                         }
                         else if (m.NumMangiati == maxNumEating)
                         {
-                            // TODO: Dame > Pedine
+                            // Dame > Pedine
 
+                            if (!eatingWithDama)
+                            {
+                                // Se questa è la prima mosssa, a parità di mangiati, a mangiare con la dama la rendo l'unica valida
+                                if (m.IsFirstDama(this))
+                                {
+                                    lsMosse = new List<Mossa>() { m };
+                                    eatingWithDama = true;
+                                    maxEatingDame = m.NumDameMangiate(this);
+                                    minIndexFirstDama = m.IndexFirstDama(this);
+                                }
+                                else
+                                {
+                                    lsMosse.Add(m);
+                                }
+                            }
+                            else if (m.IsFirstDama(this))
+                            {
+                                // Checkko altre priorità
+                                if (m.NumDameMangiate(this) > maxEatingDame)
+                                {
+                                    // Se questa pedina, a parità di numero mangiati e mangiante con dama, mangia più dame la rendo l'unica valida
+                                    lsMosse = new List<Mossa>() { m };
+                                    maxEatingDame = m.NumDameMangiate(this);
+                                    minIndexFirstDama = m.IndexFirstDama(this);
+                                }
+                                else if (m.NumDameMangiate(this) == maxEatingDame)
+                                {
+                                    // Checkko se incontra per prima la dama
+                                    if (m.IndexFirstDama(this) < minIndexFirstDama)
+                                    {
+                                        // Se questa pedina, a parità di numero mangiati e mangiante con dama e numero dame mangiate, incontra per prima una dama la rendo l'unica valida
+                                        lsMosse = new List<Mossa>() { m };
+                                        minIndexFirstDama = m.IndexFirstDama(this);
+                                    }
+                                    else
+                                        lsMosse.Add(m);
+                                }
+                                else
+                                    continue;
+                            }
+                            else
+                                continue;
                         }
                         else
                             continue; // Se ne mangia di meno non la prendo nemmeno in considerazione
                     }
                 }
             }
+
+            return lsMosse;
         }
 
         private List<Mossa> FindPossibleJumpingEatingPedMooves(Coordinate from, bool isDama = true) => 
