@@ -301,7 +301,7 @@ namespace DamaLib.Models
                 throw new Exception("Colore non valido");
         }
 
-        private List<Mossa> FindPossiblePlayerMooves()
+        public List<Mossa> FindPossiblePlayerMooves()
         {
             var lsMosse = new List<Mossa>();
 
@@ -412,10 +412,10 @@ namespace DamaLib.Models
             return lsMosse;
         }
 
-        private List<Mossa> FindPossibleJumpingEatingPedMooves(Coordinate from, bool isDama = true) => 
+        public List<Mossa> FindPossibleJumpingEatingPedMooves(Coordinate from, bool isDama = true) => 
             RecursiveFindJumpingEatingMooves(
                 new List<Coordinate>(),from,isDama);
-        private List<Mossa> RecursiveFindJumpingEatingMooves(List<Coordinate> mangiati, Coordinate from, bool isDama = true)
+        public List<Mossa> RecursiveFindJumpingEatingMooves(List<Coordinate> mangiati, Coordinate from, bool isDama = true)
         {
             var lsMosse = new List<Mossa>();
 

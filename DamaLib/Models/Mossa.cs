@@ -5,7 +5,7 @@ using DamaLib.Models.Core;
 
 namespace DamaLib.Models
 {
-    class Mossa
+    public class Mossa
     {
         private List<Coordinate> salti;
 
