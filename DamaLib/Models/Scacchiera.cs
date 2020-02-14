@@ -381,7 +381,7 @@ namespace DamaLib.Models
             // Tolgo quelle che eventualmente sono già state mangiate in precedenza (nel caso del giro tondo con la dama, pericolo di stallo)
             for (int i = 0; i < nearEatingJumps.Count; i++)
             {
-                if (mangiati.Contains(nearEatingJumps[i]))
+                if (mangiati.Contains(from.GetBetweenMeAnd(nearEatingJumps[i])))
                 {
                     nearEatingJumps.RemoveAt(i);
                     i--;
@@ -392,12 +392,11 @@ namespace DamaLib.Models
             // Per ogni pedina mangiabile creo ed aggiungo la mossa
             foreach (var jump in nearEatingJumps)
             {
-                // Costruisco la lista completa delle pedine mangiate in precedenza + la mia
-                var allMangiati = new List<Coordinate>(mangiati);
-                allMangiati.Add(from.GetBetweenMeAnd(jump));
+                // Aggiungo la pedina mangiata
+                mangiati.Add(from.GetBetweenMeAnd(jump));
 
                 // Richiamo la funzione ricorsiva per poi aggiungere le mosse che mi ritorna alle mie
-                foreach (var m in RecursiveFindJumpingEatingMooves(allMangiati,jump,isDama))
+                foreach (var m in RecursiveFindJumpingEatingMooves(mangiati,jump,isDama))
                 {
                     var oldJumps = m.Salti;
                     var oldMangiati = m.Mangiati;
