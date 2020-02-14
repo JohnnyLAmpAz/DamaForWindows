@@ -63,35 +63,27 @@ namespace DamaLib.Models
             else
                 throw new Exception("Nessusa pedina in questa cella");
         }
-        #endregion
-
-        // TODO: ???
-        public List<Coordinate> GetMoovablePieces()
+        private void Move(Coordinate from, Coordinate to)
         {
-            List<Coordinate> moovables = new List<Coordinate>();
-
-            List<Coordinate> pezziGiocatore = GetPlayerPieces(Turno);
-            foreach (var pezzo in pezziGiocatore)
+            if (!Occupati[to] && Occupati[from])
             {
-                List<Coordinate> nearCells = GetNearEmptyCells(pezzo);
-                if (!Dame[pezzo])
-                {
-                    for (int i = 0; i < nearCells.Count; i++)
-                    {
-                        if (nearCells[i].Y > pezzo.Y == Turno)
-                        {
-                            nearCells.RemoveAt(i);
-                            i--;
-                        }
-                    }
-                }
-
-                if (nearCells.Count > 0)
-                    moovables.Add(pezzo);
+                var col = GetColore(from);
+                var isDama = Dame[from];
+                Remove(from);
+                Occupati[to] = true;
+                if (col)
+                    Bianchi[to] = true;
+                else
+                    Neri[to] = true;
+                if (isDama)
+                    Dame[to] = true;
+                else
+                    Pedine[to] = true;
             }
-
-            return moovables;
+            else
+                throw new FatalErrorException("Non è valido lo spostamento");
         }
+        #endregion
 
         /// <summary>
         /// Determina se un pezzo si possa muovere o meno
@@ -207,7 +199,7 @@ namespace DamaLib.Models
             foreach (var j in GetNearEmptyJumps(pos, isDama))
             {
                 var between = pos.GetBetweenMeAnd(j);
-                if (Occupati[between] && 
+                if (Occupati[between] &&
                     GetColore(between) != GetColore(pos) &&
                     !(!isDama && Dame[between]))
                     ls.Add(j);
@@ -298,10 +290,12 @@ namespace DamaLib.Models
             else if (Neri[c])
                 return false;
             else
-                throw new Exception("Colore non valido");
+                throw new Exception("Pedina non valida");
         }
 
-        public List<Mossa> FindPossiblePlayerMooves()
+        public bool IsColore(Coordinate ped, bool col) => GetColore(ped) == col;
+
+        private List<Mossa> FindPossiblePlayerMooves()
         {
             var lsMosse = new List<Mossa>();
 
@@ -440,7 +434,7 @@ namespace DamaLib.Models
                 mangiati.Add(from.GetBetweenMeAnd(jump));
 
                 // Richiamo la funzione ricorsiva per poi aggiungere le mosse che mi ritorna alle mie
-                foreach (var m in RecursiveFindJumpingEatingMooves(mangiati,jump,isDama))
+                foreach (var m in RecursiveFindJumpingEatingMooves(mangiati, jump, isDama))
                 {
                     var oldJumps = m.Salti;
                     var oldMangiati = m.Mangiati;
@@ -453,6 +447,44 @@ namespace DamaLib.Models
             }
 
             return lsMosse;
+        }
+
+        public void Apply(Mossa m)
+        {
+            // Tolgo di mezzo le pedine mangiate
+            foreach (var p in m.Mangiati)
+            {
+                if (IsColore(p, !Turno))
+                    Remove(p);
+                else
+                    throw new FatalErrorException($"Pedina {p.ToString()} presunta da mangiare non è nemica");
+            }
+
+            // Muovo la pedina from
+            Move(m.From, m.To);
+        }
+
+        public void Play(Mossa m)
+        {
+            if (IsColore(m.From, Turno) && FindPossiblePlayerMooves().Contains(m))
+            {
+                Apply(m);
+                Turno = !Turno;
+            }
+            else
+                throw new FatalErrorException("Mossa non valida");
+        }
+
+
+        [Serializable]
+        public class FatalErrorException : Exception
+        {
+            public FatalErrorException() { }
+            public FatalErrorException(string message) : base(message) { }
+            public FatalErrorException(string message, Exception inner) : base(message, inner) { }
+            protected FatalErrorException(
+              System.Runtime.Serialization.SerializationInfo info,
+              System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
         }
     }
 }
