@@ -5,7 +5,7 @@ using DamaLib.Models.Core;
 
 namespace DamaLib.Models
 {
-    class Mossa
+    public class Mossa : IEquatable<Mossa>
     {
         private List<Coordinate> salti;
 
@@ -54,36 +54,7 @@ namespace DamaLib.Models
             return -1;
         }
 
-        // TODO: is this good?
-        //public Mossa(Scacchiera s, Coordinate from, Coordinate to)
-        //{
-        //    // Controllo se le celle sono valide
-        //    if (!from.IsValid() || !to.IsValid())
-        //        throw new CoordNotValidException();
-
-        //    // Controllo se esiste una pedina in quella posizione e se rispecchia il giocatore indicato
-        //    if (!s.Occupati[from] || !(s.Turno ? s.Bianchi[from] : s.Neri[from]))
-        //        throw new PedinaNonValidaException("La pedina iniziale indicata non esiste o non appartiene al giocatore");
-
-        //    Turno = s.Turno;
-
-        //    // Controllo che to sia libera
-        //    if (s.Occupati[to])
-        //        throw new SaltiNonValidiException("La cella di destinazione non è libera!");
-
-        //    // Controllo che from e to siano adiacenti
-        //    if (s.GetNearEmptyCells(from,s.Dame[from]).Contains(to))
-        //    {
-        //        Salti = new List<Coordinate>() { from, to };
-        //        Mangiati = new List<Coordinate>();
-        //    } 
-
-        //    // o se to sia nei salti possibili da from
-        //    else if()
-        //    {
-
-        //    }
-        //}
+        public bool Equals(Mossa other) => Salti.Equals(other.Salti) && Mangiati.Equals(other.Mangiati);
 
         [Serializable]
         public class SaltiNonValidiException : Exception
