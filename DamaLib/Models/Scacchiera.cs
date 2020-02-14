@@ -145,7 +145,7 @@ namespace DamaLib.Models
             return ls;
         }
 
-        public List<Coordinate> GetNearJumps(Coordinate pos, bool isDama = true)
+        public List<Coordinate> GetNearValidJumps(Coordinate pos, bool colore, bool isDama = true)
         {
             List<Coordinate> ls = new List<Coordinate>();
             for (int i = 0; i < 4; i++)
@@ -170,7 +170,6 @@ namespace DamaLib.Models
             // Se è una pedina ritorno solo quelle nel verso giusto
             if (!isDama)
             {
-                bool colore = GetColore(pos);
                 var realLs = new List<Coordinate>();
 
                 foreach (var dest in ls)
@@ -183,20 +182,20 @@ namespace DamaLib.Models
             return ls;
         }
 
-        public List<Coordinate> GetNearEmptyJumps(Coordinate pos, bool isDama = true)
+        public List<Coordinate> GetNearEmptyJumps(Coordinate pos, bool colore, bool isDama = true)
         {
             var eJ = new List<Coordinate>();
-            var ls = GetNearJumps(pos, isDama);
+            var ls = GetNearValidJumps(pos, colore, isDama);
             foreach (var j in ls)
                 if (!Occupati[j])
                     eJ.Add(j);
             return eJ;
         }
 
-        public List<Coordinate> GetNearEmptyEatingJumps(Coordinate pos, bool isDama = true)
+        public List<Coordinate> GetNearEmptyEatingJumps(Coordinate pos, bool colore, bool isDama = true)
         {
             var ls = new List<Coordinate>();
-            foreach (var j in GetNearEmptyJumps(pos, isDama))
+            foreach (var j in GetNearEmptyJumps(pos, colore, isDama))
             {
                 var between = pos.GetBetweenMeAnd(j);
                 if (Occupati[between] &&
@@ -295,7 +294,7 @@ namespace DamaLib.Models
 
         public bool IsColore(Coordinate ped, bool col) => GetColore(ped) == col;
 
-        private List<Mossa> FindPossiblePlayerMooves()
+        public List<Mossa> FindPossiblePlayerMooves()
         {
             var lsMosse = new List<Mossa>();
 
@@ -408,13 +407,13 @@ namespace DamaLib.Models
 
         public List<Mossa> FindPossibleJumpingEatingPedMooves(Coordinate from, bool isDama = true) => 
             RecursiveFindJumpingEatingMooves(
-                new List<Coordinate>(),from,isDama);
-        public List<Mossa> RecursiveFindJumpingEatingMooves(List<Coordinate> mangiati, Coordinate from, bool isDama = true)
+                new List<Coordinate>(),from,GetColore(from),isDama);
+        public List<Mossa> RecursiveFindJumpingEatingMooves(List<Coordinate> mangiati, Coordinate from, bool colore, bool isDama = true)
         {
             var lsMosse = new List<Mossa>();
 
             // Guardo se posso mangiare delle pedine
-            var nearEatingJumps = GetNearEmptyEatingJumps(from, isDama);
+            var nearEatingJumps = GetNearEmptyEatingJumps(from, colore, isDama);
 
             // Tolgo quelle che eventualmente sono già state mangiate in precedenza (nel caso del giro tondo con la dama, pericolo di stallo)
             for (int i = 0; i < nearEatingJumps.Count; i++)
@@ -434,7 +433,7 @@ namespace DamaLib.Models
                 mangiati.Add(from.GetBetweenMeAnd(jump));
 
                 // Richiamo la funzione ricorsiva per poi aggiungere le mosse che mi ritorna alle mie
-                foreach (var m in RecursiveFindJumpingEatingMooves(mangiati, jump, isDama))
+                foreach (var m in RecursiveFindJumpingEatingMooves(mangiati, jump, colore, isDama))
                 {
                     var oldJumps = m.Salti;
                     var oldMangiati = m.Mangiati;
@@ -449,7 +448,7 @@ namespace DamaLib.Models
             return lsMosse;
         }
 
-        public void Apply(Mossa m)
+        private void Apply(Mossa m)
         {
             // Tolgo di mezzo le pedine mangiate
             foreach (var p in m.Mangiati)

@@ -54,7 +54,20 @@ namespace DamaLib.Models
             return -1;
         }
 
-        public bool Equals(Mossa other) => Salti.Equals(other.Salti) && Mangiati.Equals(other.Mangiati);
+        public bool Equals(Mossa other)
+        {
+            if (Salti.Count != other.Salti.Count || Mangiati.Count != other.Mangiati.Count)
+                return false;
+
+            for (int i = 0; i < Salti.Count; i++)
+                if (!Salti[i].Equals(other.Salti[i]))
+                    return false;
+            for (int i = 0; i < Mangiati.Count; i++)
+                if (!Mangiati[i].Equals(other.Mangiati[i]))
+                    return false;
+
+            return true;
+        }
 
         [Serializable]
         public class SaltiNonValidiException : Exception
