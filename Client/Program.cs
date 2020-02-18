@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Client;
-
+using DamaLib.Models;
+using DamaLib.Models.Core;
+using Form.Models;
+using DamaLib.Models.BackEnd;
 namespace Form
 {
     static class Program
@@ -17,7 +20,11 @@ namespace Form
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ServerDiscoveryForm());
+
+            // DEBUG ONLY! DELETE
+            Application.Run(new ClientMainForm(new ClientDama()));
+            //Application.Run(new ServerDiscoveryForm());
+        
         }
     }
 }
