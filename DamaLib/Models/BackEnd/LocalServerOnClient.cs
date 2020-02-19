@@ -26,11 +26,14 @@ namespace DamaLib.Models.BackEnd
                     {
                         IpUnito = client.Address.ToString()
                     });
+
+                // LobbyPlayerLeft
+                if (((string)json["type"]).Equals(Constants.LocalRequests.LobbyPlayerLeft))
+                    OnOtherLobbyPlayerLeft();
             }
             catch (JsonReaderException) { }
 
-            // TODO: find another solution
-            return "";
+            return Constants.Responses.Ok;
         }
 
         protected void OnOtherLobbyPlayerJoined(OtherLobbyPlayerJoinedEventArgs e)
@@ -41,7 +44,9 @@ namespace DamaLib.Models.BackEnd
             // SAME AS...
             OtherLobbyPlayerJoined?.Invoke(this, e);
         }
+        protected void OnOtherLobbyPlayerLeft() => OtherLobbyPlayerLeft?.Invoke(this,new EventArgs());
 
         public event EventHandler<OtherLobbyPlayerJoinedEventArgs> OtherLobbyPlayerJoined;
+        public event EventHandler OtherLobbyPlayerLeft;
     }
 }

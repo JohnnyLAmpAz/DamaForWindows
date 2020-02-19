@@ -70,6 +70,18 @@ Content: *JSON*
 }
 ```
 
+### LobbyPlayerLeft - LOCAL_SERVER
+
+Server -> Client`:55554`
+
+Content: *JSON*
+
+```json
+{
+    type: "LobbyPlayerLeft",
+}
+```
+
 ### Delete
 
 Richiesta in JSON:

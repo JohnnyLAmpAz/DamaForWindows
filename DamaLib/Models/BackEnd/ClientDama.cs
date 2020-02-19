@@ -15,7 +15,6 @@ namespace DamaLib.Models.BackEnd
         public IPAddress Server { get; set; } = default(IPAddress);
         TcpClient tcpClient;
         LocalServerOnClient localServer;
-        Thread tLocalServer;
 
         public ClientDama()
         {
@@ -116,6 +115,11 @@ namespace DamaLib.Models.BackEnd
         {
             add { localServer.OtherLobbyPlayerJoined += value; }
             remove { localServer.OtherLobbyPlayerJoined -= value; }
+        }
+        public event EventHandler OtherLobbyPlayerLeft
+        {
+            add { localServer.OtherLobbyPlayerLeft += value; }
+            remove { localServer.OtherLobbyPlayerLeft -= value; }
         }
 
         /// <summary>
