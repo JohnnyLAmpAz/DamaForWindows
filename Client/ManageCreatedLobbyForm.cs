@@ -20,10 +20,25 @@ namespace Client
 
         public ManageCreatedLobbyForm(string nome, ClientDama client)
         {
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             nomeLobby = nome;
             lblNomeLobby.Text = nome;
             this.client = client;
+            client.OtherLobbyPlayerJoined += Client_OtherLobbyPlayerJoined;
+            client.OtherLobbyPlayerLeft += Client_OtherLobbyPlayerLeft;
+        }
+
+        private void Client_OtherLobbyPlayerLeft(object sender, EventArgs e)
+        {
+            lblGuestIP.Text = "In attesa che qualquno joini...";
+            btnStartMatch.Enabled = false;
+        }
+
+        private void Client_OtherLobbyPlayerJoined(object sender, OtherLobbyPlayerJoinedEventArgs e)
+        {
+            lblGuestIP.Text = e.IpUnito;
+            btnStartMatch.Enabled = true;
         }
 
         private void ManageCreatedLobbyForm_FormClosing(object sender, FormClosingEventArgs e)

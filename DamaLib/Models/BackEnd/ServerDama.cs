@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 namespace DamaLib.Models.BackEnd
 {
@@ -92,7 +94,11 @@ namespace DamaLib.Models.BackEnd
 
                     // TODO: Controlla anche che non stia già giocando o già hostando una lobby!
 
-                    // TODO: Avverti il server!
+                    // Avverti il creatore
+                    JObject jsonRes = new JObject();
+                    jsonRes.Add("type", new JValue(Constants.LocalRequests.LobbyPlayerJoined));
+                    jsonRes.Add("player", new JValue(client.Address.ToString()));
+                    TcpRequest(jsonRes.ToString(), client.Address);
 
                     // Aggiungo lo sfidante
                     lobby.Unito = client.Address.ToString();
@@ -129,6 +135,25 @@ namespace DamaLib.Models.BackEnd
             #endregion
 
             return Constants.ResponseErrors.InvalidRequest.ToString();
+
+        }
+        private string TcpRequest(string req, IPAddress ipClient)
+        {
+            TcpClient tcpClient = new TcpClient();
+            tcpClient.Connect(new IPEndPoint(ipClient, Constants.DamaLocalServerPort));
+            NetworkStream ns = tcpClient.GetStream();
+
+            // Request
+            byte[] buff = Encoding.UTF8.GetBytes(req);
+            ns.Write(buff, 0, buff.Length);
+
+            // Response
+            buff = new byte[tcpClient.ReceiveBufferSize];
+            int len = ns.Read(buff, 0, tcpClient.ReceiveBufferSize);
+
+            tcpClient.Close();
+
+            return Encoding.UTF8.GetString(buff, 0, len);
         }
     }
 }
