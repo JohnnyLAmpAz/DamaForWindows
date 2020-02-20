@@ -99,6 +99,7 @@
             this.btnStartMatch.TabIndex = 1;
             this.btnStartMatch.Text = "Starta partita";
             this.btnStartMatch.UseVisualStyleBackColor = true;
+            this.btnStartMatch.Click += new System.EventHandler(this.btnStartMatch_Click);
             // 
             // ManageCreatedLobbyForm
             // 

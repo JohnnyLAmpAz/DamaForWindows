@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DamaLib.Models.BackEnd;
 using DamaLib;
+using Form;
 
 namespace Client
 {
@@ -73,6 +74,15 @@ namespace Client
         {
             CloseLobby();
             Close();
+        }
+
+        private void btnStartMatch_Click(object sender, EventArgs e)
+        {
+            // TODO: send to server and relative consequences & prevent closing lobby prompt on form closing
+
+            ClientMainForm mainForm = new ClientMainForm(client);
+            Close();
+            mainForm.Show();
         }
     }
 }
