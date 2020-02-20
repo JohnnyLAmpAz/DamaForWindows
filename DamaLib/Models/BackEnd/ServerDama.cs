@@ -93,10 +93,10 @@ namespace DamaLib.Models.BackEnd
                     // TODO: Controlla anche che non stia già giocando o già hostando una lobby!
 
                     // Avverti il creatore
-                    JObject jsonRes = new JObject();
-                    jsonRes.Add("type", new JValue(Constants.LocalRequests.LobbyPlayerJoined));
-                    jsonRes.Add("player", new JValue(client.Address.ToString()));
-                    TcpRequest(jsonRes.ToString(), client.Address);
+                    JObject jsonReq = new JObject();
+                    jsonReq.Add("type", new JValue(Constants.LocalRequests.LobbyPlayerJoined));
+                    jsonReq.Add("player", new JValue(client.Address.ToString()));
+                    TcpRequestToClientLocalServer(jsonReq.ToString(), client.Address);
 
                     // Aggiungo lo sfidante
                     lobby.Unito = client.Address.ToString();
@@ -120,7 +120,10 @@ namespace DamaLib.Models.BackEnd
                     // Leave
                     l.Unito = null;
 
-                    // TODO: notifica il creatore 
+                    // Notifica il creatore 
+                    JObject jsonReq = new JObject();
+                    jsonReq.Add("type", new JValue(Constants.LocalRequests.LobbyPlayerLeft));
+                    TcpRequestToClientLocalServer(jsonReq.ToString(), client.Address);
 
                     return Constants.Responses.Ok;
                 }
@@ -135,7 +138,7 @@ namespace DamaLib.Models.BackEnd
             return Constants.ResponseErrors.InvalidRequest.ToString();
 
         }
-        private string TcpRequest(string req, IPAddress ipClient)
+        private string TcpRequestToClientLocalServer(string req, IPAddress ipClient)
         {
             TcpClient tcpClient = new TcpClient();
             tcpClient.Connect(new IPEndPoint(ipClient, Constants.DamaLocalServerPort));
