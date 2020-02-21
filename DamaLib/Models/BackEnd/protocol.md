@@ -82,6 +82,18 @@ Content: *JSON*
 }
 ```
 
+### StartMatch
+
+Richiesta in JSON:
+
+```json
+{
+    req: "StartMatch"
+}
+```
+
+Risposta a buon fine: `OK`
+
 ### Delete
 
 Richiesta in JSON:

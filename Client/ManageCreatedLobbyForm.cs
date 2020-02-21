@@ -17,7 +17,7 @@ namespace Client
     {
         ClientDama client;
         string nomeLobby;
-        bool deleted = false;
+        bool deleted = false, started = false;
 
         public ManageCreatedLobbyForm(string nome, ClientDama client)
         {
@@ -44,7 +44,7 @@ namespace Client
 
         private void ManageCreatedLobbyForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!deleted)
+            if (!deleted && !started)
             {
                 var window = MessageBox.Show(
                     "Sei siicuro di voler uscire? Procedendo la lobby verra eliminata",
@@ -57,7 +57,7 @@ namespace Client
 
         private void ManageCreatedLobbyForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!deleted)
+            if (!deleted && !started)
                 CloseLobby();
         }
 
@@ -79,6 +79,14 @@ namespace Client
         private void btnStartMatch_Click(object sender, EventArgs e)
         {
             // TODO: send to server and relative consequences & prevent closing lobby prompt on form closing
+            string res = client.StartMatch();
+            if (!res.Equals(Constants.Responses.Ok))
+            {
+                MessageBox.Show(res, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            started = true;
+            // ...
 
             ClientMainForm mainForm = new ClientMainForm(client);
             Close();

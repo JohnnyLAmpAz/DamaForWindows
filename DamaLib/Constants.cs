@@ -26,6 +26,7 @@ namespace DamaLib
             public const string DeleteLobby = "DeleteLobby";
             public const string JoinLobby = "JoinLobby";
             public const string LeaveLobby = "LeaveLobby";
+            public const string StartMatch = "StartMatch";
         }
 
         public static class LocalRequests

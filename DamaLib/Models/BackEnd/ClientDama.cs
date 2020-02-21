@@ -109,6 +109,13 @@ namespace DamaLib.Models.BackEnd
             return TcpRequest(json.ToString());
         }
 
+        public string StartMatch()
+        {
+            JObject json = new JObject();
+            json.Add("req", new JValue(Constants.Requests.StartMatch));
+            return TcpRequest(json.ToString());
+        }
+
         // Event forwarding
         // https://stackoverflow.com/questions/1065355/forwarding-events-in-c-sharp
         public event EventHandler<OtherLobbyPlayerJoinedEventArgs> OtherLobbyPlayerJoined
